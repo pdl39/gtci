@@ -1,5 +1,9 @@
 // Given an array of positive numbers and a positive number ‘k,’ find the maximum sum of any contiguous subarray of size ‘k’.
 
+// T: O(n)
+// S: O(1)
+// where n = array length
+
 const maxSubArrOfSizeK = (k, arr) => {
   let maxSum = 0, subArrSum = 0;
   let subArrStart = 0;
