@@ -9,7 +9,7 @@ bca
 cab
 cba
 
-If a string has ‘n’ distinct characters, it will have n!n! permutations. */
+If a string has ‘n’ distinct characters, it will have n! permutations. */
 
 // T: O(n + m)
 // S: O(m)
