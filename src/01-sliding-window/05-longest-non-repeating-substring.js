@@ -2,7 +2,7 @@
 
 // T: O(n)
 // S: O(1) --> in the worst case, we would need to store k = 26 chars, which represent the # of distinct alphabet chars, assuming we only deal with alphabet characters. Since k = 26 is a constant, we can say space is O(1).
-// where n = array length, k = # of distinct chars.
+// where n = string length, k = # of distinct chars.
 
 const longestNonRepeatingSubstring = (str) => {
   let maxLen = 0;

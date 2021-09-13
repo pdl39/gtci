@@ -2,7 +2,7 @@
 
 // T: O(n) --> Outer for loop runs for all elements, inner while loop processes each element only once > O(n + n) > O(n)
 // S: O(k) --> hashmap stores max k + 1 characters at any time. This can be considered O(1), especially if we assume only alphabet chars, since in this case, max k would be 26. Even if we assume any ascii char can be used, # of ascii chars will still be constant, so space complexity would be O(1).
-// where n = array length, k = # distinct characters
+// where n = string length, k = # distinct characters
 
 const longestSubstringWithKDistinct = (str, k) => {
   if (k >= str.length) return str.length;
