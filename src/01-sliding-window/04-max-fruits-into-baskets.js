@@ -6,8 +6,8 @@ Write a function to return the maximum number of fruits in both baskets.
 */
 
 // T: O(n) --> Outer for loop runs for all elements, inner while loop processes each element only once > O(n + n) > O(n)
-// S: O(k) --> hashmap stores max k + 1 characters at any time
-// where n = array length, k = # distinct characters
+// S: O(1) --> hashmap stores max 2 + 1 characters at any time
+// where n = array length
 
 // This question is essentially same as 03-longest-substring-with-max-k-distinct-chars, except that k = 2.
 
