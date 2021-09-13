@@ -57,7 +57,7 @@ const findWordConcatenation1 = (str, words) => {
 // #2. Solution with no additional assumption:
 
 // T: O(n * m * wordLen)
-// S: O()
+// S: O(n + m) --> in the worst case, we need to store a result array of n, if m = 1 and is a single character, and the string consists of only this single-word character.
 // where n = string length, m = # distinct words in word arry, wordLen = length of a word in words array.
 
 const findWordConcatenation2 = (str, words) => {
