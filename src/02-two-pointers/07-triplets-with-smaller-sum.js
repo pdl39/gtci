@@ -1,6 +1,6 @@
 /* Given an array arr of unsorted numbers and a target sum, count all triplets in it such that arr[i] + arr[j] + arr[k] < target where i, j, and k are three different indices. Write a function to return the count of such triplets. */
 
-// T: O(n^2) --> O(nlogn + n^2), nlogn for sorting, n^2 for traversePairs, which takes O(n) and is called for each element in the array.
+// T: O(n^2) --> O(nlogn + n^2), nlogn for sorting, n^2 for searchPairs, which takes O(n) and is called for each element in the array.
 // S: O(n) --> assuming we need to create a new array for sorted array. If we can sort in place, space complexity would be O(1).
 // where n = array length
 
