@@ -23,7 +23,7 @@ const searchPairs = (arr, target, x, lp, result) => {
     const sum = x + arr[lp] + arr[rp];
 
     if (sum < target) {
-      // since arr[rp] is always greater than or equal to arr[lp], the sum of any two elements between the current lp and rp will still be less than the target. Hence, increment count by all such possible pairs.
+      // since arr[rp] is always greater than or equal to arr[lp], the sum of the element at the current lp and any element between the current lp and rp will still be less than the target. Hence, increment count by all such possible pairs.
       result.count += rp - lp;
       lp++;
     }
