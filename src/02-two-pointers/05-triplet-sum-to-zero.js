@@ -1,4 +1,8 @@
+/* Given an array of unsorted numbers, find all unique triplets in it that add up to zero. */
 
+// T: O(n^2) --> O(nlogn + n^2), nlogn for sorting, n^2 for searchPairs, since searchPairs takes O(n), and we call searchPairs on each element of the arr.
+// S: O(n) --> n for the output 'triplets', and another n for the sorted array, assuming we need separte array to store the sorted arr. (if we can sort in place, no additional array is needed).
+// where n = array length.
 
 const searchTriplets = (arr) => {
   const sortedArr = arr.sort((a, b) => a - b);
