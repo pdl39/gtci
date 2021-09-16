@@ -68,7 +68,8 @@ ex1Node.next = new Node(2);
 ex1Node.next.next = new Node(3);
 ex1Node.next.next.next = new Node(4);
 ex1Node.next.next.next.next = new Node(5);
-ex1Node.next.next.next.next.next = new Node(2);
+ex1Node.next.next.next.next.next = new Node(6);
+ex1Node.next.next.next.next.next.next = ex1Node.next.next.next.next;
 
 const ex2Node = new Node(1);
 ex2Node.next = new Node(2);
