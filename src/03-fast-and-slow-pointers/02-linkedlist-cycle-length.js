@@ -4,7 +4,7 @@
 // S: O(1)
 // where n = # of nodes in the linked list.
 
-// This question is very similar to 01-linkedlist-cycle, except that instead of return true/false of whether a cycle exists, we will return the length of the cycle after finding a cycle. To find the length of the cycle, we need to do one more iteration after finding the cycle, at which point the slow (and the fast) pointer will be at the node that starts the cycle. Using the slow pointer which is at the start of the cycle, we will iterate until we are back to this same point, incrementing the count as we go. If no cycle exists, we will return length of 0.
+// This question is very similar to 01-linkedlist-cycle, except that instead of return true/false of whether a cycle exists, we will return the length of the cycle after finding a cycle. To find the length of the cycle, we need to do one more iteration after finding the cycle. Using the current slow pointer, we will iterate until we are back to this same point, incrementing the count as we go. If no cycle exists, we will return length of 0.
 
 const cycleLength = (head) => {
   let fast = head, slow = head;
