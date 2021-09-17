@@ -91,7 +91,38 @@ ex4Node.next.next = new Node(3);
 ex4Node.next.next.next = new Node(3);
 ex4Node.next.next.next.next = new Node(2);
 
+const ex5Node = new Node(3);
+ex5Node.next = new Node(3);
+ex5Node.next.next = new Node(5);
+ex5Node.next.next.next = new Node(7);
+ex5Node.next.next.next.next = new Node(9);
+ex5Node.next.next.next.next.next = new Node(7);
+ex5Node.next.next.next.next.next.next = new Node(5);
+ex5Node.next.next.next.next.next.next.next = new Node(3);
+ex5Node.next.next.next.next.next.next.next.next = new Node(3);
+
+const ex6Node = new Node(1);
+ex6Node.next = new Node(2);
+ex6Node.next.next = new Node(4);
+ex6Node.next.next.next = new Node(7);
+ex6Node.next.next.next.next = new Node(6);
+ex6Node.next.next.next.next.next = new Node(4);
+ex6Node.next.next.next.next.next.next = new Node(2);
+ex6Node.next.next.next.next.next.next.next = new Node(1);
+
+const ex7Node = new Node(1);
+ex7Node.next = new Node(2);
+ex7Node.next.next = new Node(4);
+ex7Node.next.next.next = new Node(6);
+ex7Node.next.next.next.next = new Node(6);
+ex7Node.next.next.next.next.next = new Node(4);
+ex7Node.next.next.next.next.next.next = new Node(2);
+ex7Node.next.next.next.next.next.next.next = new Node(1);
+
 console.log(isPalindromicLinkedList(ex1Node));
 console.log(isPalindromicLinkedList(ex2Node));
 console.log(isPalindromicLinkedList(ex3Node));
 console.log(isPalindromicLinkedList(ex4Node));
+console.log(isPalindromicLinkedList(ex5Node));
+console.log(isPalindromicLinkedList(ex6Node));
+console.log(isPalindromicLinkedList(ex7Node));
