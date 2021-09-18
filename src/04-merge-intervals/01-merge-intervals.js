@@ -3,7 +3,7 @@
 // #1
 // T: O(nlogn) --> nlogn for sorting, although iteration is linear.
 // S: O(n) --> n for the output array as well as for sorted array.
-// where
+// where n = array length.
 
 const mergeIntervals = (intervals) => {
   if (intervals.length < 2) return intervals;
