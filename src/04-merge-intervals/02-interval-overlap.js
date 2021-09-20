@@ -1,6 +1,6 @@
 /* Given a set of intervals, find out if any two intervals overlap. */
 
-// T: O(n)
+// T: O(nlogn)
 // S: O(n) --> for sorted array, assuming no in-place sorting.
 // where n = array length (# of intervals)
 
