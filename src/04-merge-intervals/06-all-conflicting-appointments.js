@@ -1,3 +1,5 @@
+import Interval from "../../ds/Interval";
+
 /* Given a list of appointments, find all the conflicting appointments. */
 
 // T: O(nlogn)
@@ -28,17 +30,6 @@ const findAllConflictingAppointments = (intervals) => {
 
 
 // TEST
-class Interval {
-  constructor(start, end) {
-    this.start = start;
-    this.end = end;
-  }
-
-  getInterval() {
-    return [this.start, this.end];
-  }
-}
-
 console.log(findAllConflictingAppointments([new Interval(1, 4), new Interval(2, 5), new Interval(7, 9)]));
 console.log(findAllConflictingAppointments([new Interval(6, 7), new Interval(2, 4), new Interval(5, 6)]));
 console.log(findAllConflictingAppointments([new Interval(1, 4), new Interval(2, 6), new Interval(3, 5)]));

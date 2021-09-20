@@ -1,3 +1,5 @@
+import Interval from "../../ds/Interval";
+
 /* Given a set of intervals, find out if any two intervals overlap. */
 
 // T: O(nlogn)
@@ -19,17 +21,6 @@ const intervalHasOverlap = (intervals) => {
 
 
 // TEST
-class Interval {
-  constructor(start, end) {
-    this.start = start;
-    this.end = end;
-  }
-
-  getInterval() {
-    return [this.start, this.end];
-  }
-}
-
 console.log(intervalHasOverlap([new Interval(1, 4), new Interval(2, 5), new Interval(7, 9)]));
 console.log(intervalHasOverlap([new Interval(6, 7), new Interval(2, 4), new Interval(5, 9)]));
 console.log(intervalHasOverlap([new Interval(1, 4), new Interval(2, 6), new Interval(3, 5)]));

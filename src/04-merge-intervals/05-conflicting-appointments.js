@@ -1,3 +1,5 @@
+import Interval from "../../ds/Interval";
+
 /* Given an array of intervals representing ‘N’ appointments, find out if a person can attend all the appointments. */
 
 // T: O(nlogn)
@@ -21,17 +23,6 @@ const canAttendAllAppointments = (intervals) => {
 
 
 // TEST
-class Interval {
-  constructor(start, end) {
-    this.start = start;
-    this.end = end;
-  }
-
-  getInterval() {
-    return [this.start, this.end];
-  }
-}
-
 console.log(canAttendAllAppointments([new Interval(1, 4), new Interval(2, 5), new Interval(7, 9)]));
 console.log(canAttendAllAppointments([new Interval(6, 7), new Interval(2, 4), new Interval(5, 6)]));
 console.log(canAttendAllAppointments([new Interval(1, 4), new Interval(2, 6), new Interval(3, 5)]));

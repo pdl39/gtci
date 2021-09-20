@@ -1,3 +1,5 @@
+import Interval from "../../ds/Interval";
+
 /* Given a list of non-overlapping intervals sorted by their start time, insert a given interval at the correct position and merge all necessary intervals to produce a list that has only mutually exclusive intervals. */
 
 // T: O(n)
@@ -65,17 +67,6 @@ const insertInterval2 = (intervals, newInterval) => {
 
 
 // TEST
-class Interval {
-  constructor(start, end) {
-    this.start = start;
-    this.end = end;
-  }
-
-  getInterval() {
-    return [this.start, this.end];
-  }
-}
-
 // #1
 console.log(insertInterval([new Interval(1, 4), new Interval(7, 9), new Interval(10, 11)], new Interval(5, 6)).map(interval => interval.getInterval()));
 console.log(insertInterval([new Interval(1, 4), new Interval(7, 9), new Interval(10, 11)], new Interval(5, 10)).map(interval => interval.getInterval()));

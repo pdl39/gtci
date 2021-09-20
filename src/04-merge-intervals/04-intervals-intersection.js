@@ -1,3 +1,5 @@
+import Interval from "../../ds/Interval";
+
 /* Given two lists of intervals, find the intersection of these two lists. Each list consists of disjoint intervals sorted on their start time. */
 
 // T: O(n + m)
@@ -74,17 +76,6 @@ const mergeIntersections = (intersections) => {
 
 
 // TEST
-class Interval {
-  constructor(start, end) {
-    this.start = start;
-    this.end = end;
-  }
-
-  getInterval() {
-    return [this.start, this.end];
-  }
-}
-
 // #1
 console.log(intervalsIntersection([new Interval(1, 4), new Interval(7, 9), new Interval(10, 11)], [new Interval(7, 11)]).map(interval => interval.getInterval()));
 console.log(intervalsIntersection([new Interval(1, 2), new Interval(3, 4), new Interval(5, 6), new Interval(7, 8)], [new Interval(2, 6)]).map(interval => interval.getInterval()));
