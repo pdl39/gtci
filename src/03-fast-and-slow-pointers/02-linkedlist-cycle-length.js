@@ -1,3 +1,5 @@
+import Node from "../../ds/Node";
+
 /* Given the head of a LinkedList with a cycle, find the length of the cycle. */
 
 // T: O(n) --> we will do one more iteration of the cycle to get the cycle length, but this is just O(2n) -> O(n).
@@ -35,13 +37,6 @@ const getCycleLength = (slow) => {
 
 
 // TEST
-class Node {
-  constructor(value, next=null){
-    this.value = value;
-    this.next = next;
-  }
-}
-
 const ex1Node = new Node(1);
 ex1Node.next = new Node(2);
 ex1Node.next.next = new Node(3);

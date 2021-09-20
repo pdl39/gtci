@@ -1,3 +1,5 @@
+import Node from "../../ds/Node";
+
 /* Given the head of a Singly LinkedList, write a function to determine if the LinkedList has a cycle in it or not. */
 
 // T: O(n) --> Once the slow pointer enters the cycle, the fast pointer will meet the slow pointer in the same cycle.
@@ -19,13 +21,6 @@ const hasCycle = (head) => {
 
 
 // TEST
-class Node {
-  constructor(value, next=null){
-    this.value = value;
-    this.next = next;
-  }
-}
-
 const ex1Node = new Node(1);
 ex1Node.next = new Node(2);
 ex1Node.next.next = new Node(3);

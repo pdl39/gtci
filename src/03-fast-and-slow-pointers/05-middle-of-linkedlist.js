@@ -1,3 +1,5 @@
+import Node from "../../ds/Node";
+
 /* Given the head of a Singly LinkedList, write a method to return the middle node of the LinkedList.
 
 If the total number of nodes in the LinkedList is even, return the second middle node. */
@@ -43,13 +45,6 @@ const findMiddleOfLinkedList1 = (head) => {
 
 
 // TEST
-class Node {
-  constructor(value, next=null){
-    this.value = value;
-    this.next = next;
-  }
-}
-
 const ex1Node = new Node(1);
 ex1Node.next = new Node(2);
 ex1Node.next.next = new Node(3);
