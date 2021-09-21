@@ -1,4 +1,4 @@
-export default class Interval {
+class Interval {
   constructor(start, end) {
     this.start = start;
     this.end = end;
@@ -8,3 +8,5 @@ export default class Interval {
     return [this.start, this.end];
   }
 }
+
+module.exports = Interval;

@@ -1,4 +1,4 @@
-export default class MinHeap {
+class MinHeap {
   #capacity;
 
   constructor(capacity = 10) {
@@ -28,7 +28,7 @@ export default class MinHeap {
   };
 
   #hasRightChild(index) {
-    return this.#getRightChild(index) < this.size;
+    return this.#getRightChildIndex(index) < this.size;
   }
 
   #parent(index) {
@@ -106,3 +106,5 @@ export default class MinHeap {
     }
   }
 };
+
+module.exports = MinHeap;
