@@ -1,3 +1,5 @@
+import Node from "../../ds/Node";
+
 /* Given the head of a Singly LinkedList, write a method to check if the LinkedList is a palindrome or not.
 
 Your algorithm should use constant space and the input LinkedList should be in the original form once the algorithm is finished. The algorithm should have O(N)O(N) time complexity where ‘N’ is the number of nodes in the LinkedList. */
@@ -56,13 +58,6 @@ const checkPalindrome = (head1, head2) => {
 
 
 // TEST
-class Node {
-  constructor(value, next=null){
-    this.value = value;
-    this.next = next;
-  }
-}
-
 const ex1Node = new Node(1);
 ex1Node.next = new Node(2);
 ex1Node.next.next = new Node(3);

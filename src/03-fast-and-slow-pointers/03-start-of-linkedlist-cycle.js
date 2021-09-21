@@ -1,3 +1,5 @@
+import Node from "../../ds/Node";
+
 /* Given the head of a Singly LinkedList that contains a cycle, write a function to find the starting node of the cycle. */
 
 // T: O(n)
@@ -56,13 +58,6 @@ const findCycleStartHelper = (head, cycleLength) => {
 
 
 // TEST
-class Node {
-  constructor(value, next=null){
-    this.value = value;
-    this.next = next;
-  }
-}
-
 const ex1Node = new Node(1);
 ex1Node.next = new Node(2);
 ex1Node.next.next = new Node(3);

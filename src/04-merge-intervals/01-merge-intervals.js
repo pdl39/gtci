@@ -1,9 +1,11 @@
+import Interval from "../../ds/Interval";
+
 /* Given a list of intervals, merge all the overlapping intervals to produce a list that has only mutually exclusive intervals. */
 
 // #1
 // T: O(nlogn) --> nlogn for sorting, although iteration is linear.
 // S: O(n) --> n for the output array as well as for sorted array.
-// where
+// where n = array length (# of intervals).
 
 const mergeIntervals = (intervals) => {
   if (intervals.length < 2) return intervals;
@@ -80,16 +82,6 @@ const mergeIntervals3 = (intervals) => {
 
 
 // TEST
-class Interval {
-  constructor(start, end) {
-    this.start = start;
-    this.end = end;
-  }
-
-  getInterval() {
-    return [this.start, this.end];
-  }
-}
 
 // #1
 console.log(mergeIntervals([new Interval(1, 4), new Interval(2, 5), new Interval(7, 9)]).map(interval => interval.getInterval()));
