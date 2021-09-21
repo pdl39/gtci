@@ -1,11 +1,10 @@
 export default class MinHeap {
   #capacity;
-  #size;
 
   constructor(capacity = 10) {
     this.#capacity = capacity;
-    this.#size = 0;
-    this.items = new Array(capacity);
+    this.size = 0;
+    this.items = new Array(capacity).fill(null);
   };
 
   #getParentIndex(index) {
@@ -25,11 +24,11 @@ export default class MinHeap {
   };
 
   #hasLeftChild(index) {
-    return this.#getLeftChildIndex(index) < this.#size;
+    return this.#getLeftChildIndex(index) < this.size;
   };
 
   #hasRightChild(index) {
-    return this.#getRightChild(index) < this.#size;
+    return this.#getRightChild(index) < this.size;
   }
 
   #parent(index) {
@@ -51,7 +50,7 @@ export default class MinHeap {
   }
 
   #ensureEnoughCapacity() {
-    if (this.#size < this.#capacity) return;
+    if (this.size < this.#capacity) return;
 
     const existingItems = [...this.items];
     this.#capacity *= 2;
@@ -60,17 +59,17 @@ export default class MinHeap {
   }
 
   peek() {
-    if (this.#size === 0) throw new Error('Heap is empty.');
+    if (this.size === 0) throw new Error('Heap is empty.');
     return this.items[0];
   }
 
   poll() { // remove the min.
-    if (this.#size === 0) throw new Error('Heap is empty.');
+    if (this.size === 0) throw new Error('Heap is empty.');
 
     let item = this.items[0];
-    this.items[0] = this,items[this.#size - 1];
-    this.items[this.#size - 1] = undefined;
-    this.#size--;
+    this.#swap(0, this.size - 1);
+    this.items[this.size - 1] = null;
+    this.size--;
     this.heapifyDown();
 
     return item;
@@ -80,11 +79,11 @@ export default class MinHeap {
     this.#ensureEnoughCapacity();
 
     this.items[size] = item;
-    this.#size++;
+    this.size++;
     this.heapifyUp();
   }
 
-  heapifyUp(index = this.#size - 1) {
+  heapifyUp(index = this.size - 1) {
     while (this.#hasParent(index) && this.items[index] < this.#parent(index)) {
       this.#swap(index, this.#getParentIndex(index));
       index = this.#getParentIndex(index);

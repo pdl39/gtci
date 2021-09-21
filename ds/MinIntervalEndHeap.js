@@ -5,7 +5,7 @@ export default class MinIntervalEndHeap extends MinHeap {
     super();
   }
 
-  heapifyUp(index = this.#size - 1) {
+  heapifyUp(index = this.size - 1) {
     while (this.#hasParent(index) && this.items[index].end < this.#parent(index).end) {
       this.#swap(index, this.#getParentIndex(index));
       index = this.#getParentIndex(index);
