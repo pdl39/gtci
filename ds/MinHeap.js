@@ -78,7 +78,7 @@ class MinHeap {
   add(item) { // add new item.
     this.#ensureEnoughCapacity();
 
-    this.items[size] = item;
+    this.items[this.size] = item;
     this.size++;
     this.heapifyUp();
   }
