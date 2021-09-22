@@ -13,18 +13,17 @@ const findPointOfMaxOverlap = (intervals) => {
   const sortedIntervals = intervals.sort((a, b) => a.start - b.start);
   const overlappingIntervals = new MinIntervalEndHeap();
 
-  let maxOverlap = overlappingIntervals.size;
+  let maxOverlap = 0;
   let pointOfMaxOverlap = 0;
-  overlappingIntervals.add(sortedIntervals[0]);
 
-  for (let i = 1; i < sortedIntervals.length; i++) {
+  for (let i = 0; i < sortedIntervals.length; i++) {
     while (overlappingIntervals.size && overlappingIntervals.peek().end <= sortedIntervals[i].start) {
       overlappingIntervals.poll();
     }
 
     overlappingIntervals.add(sortedIntervals[i]);
 
-    if (overlappingIntervals.size > 1 && overlappingIntervals.size > maxOverlap) {
+    if (overlappingIntervals.size > maxOverlap) {
       maxOverlap = overlappingIntervals.size;
       pointOfMaxOverlap = i;
     }

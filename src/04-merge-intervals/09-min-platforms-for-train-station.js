@@ -13,10 +13,9 @@ const minPlatformsTrainStation = (trainsSchedule) => {
   const sortedTrainsSchedule = trainsSchedule.sort((a, b) => a.start - b.start);
   const activeTrains = new MinIntervalEndHeap();
 
-  activeTrains.add(sortedTrainsSchedule[0]);
-  let minPlatforms = activeTrains.size;
+  let minPlatforms = 0;
 
-  for (let i = 1; i < sortedTrainsSchedule.length; i++) {
+  for (let i = 0; i < sortedTrainsSchedule.length; i++) {
     // remove departed trains.
     while (activeTrains.size && activeTrains.peek().end <= sortedTrainsSchedule[i].start) {
       activeTrains.poll();
