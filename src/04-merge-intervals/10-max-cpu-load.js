@@ -24,13 +24,10 @@ const findMaxCPULoad = (jobs) => {
 
   for (let i = 0; i < sortedJobs.length; i++) {
     while (activeJobs.size && activeJobs.peek().end <= sortedJobs[i].start) {
-      const finishedCPULoad = activeJobs.peek().cpuLoad;
-      activeJobs.poll();
-      overlappingCPULoadSum -= finishedCPULoad;
+      overlappingCPULoadSum -= activeJobs.poll().cpuLoad;
     }
     activeJobs.add(sortedJobs[i]);
-    const newCPULoad = sortedJobs[i].cpuLoad;
-    overlappingCPULoadSum += newCPULoad;
+    overlappingCPULoadSum += sortedJobs[i].cpuLoad;
 
     maxCPULoad = Math.max(maxCPULoad, overlappingCPULoadSum);
   }
