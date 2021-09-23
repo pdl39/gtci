@@ -1,8 +1,8 @@
 /* We are given an unsorted array containing ‘n’ numbers taken from the range 1 to ‘n’. The array has some numbers appearing twice, find all these duplicate numbers without using any extra space. */
 
 // T: O(n)
-// S: O(n)
-// where n =
+// S: O(n) --> O(n/2) > O(n). n/2 for the output array. Ignoring the space needed for the output array, it will be O(1).
+// where n = length of the input array.
 
 // This question is very similar to 03-find-all-missing-numbers, except that here, we return an array of duplicate numbers instead of returning an array of missing numbers. The only difference would be what we add to the output array when we encounter a number that is not in the correct place when we iterate the rearranged nums array - instead of adding the index, which represents the missing number, we will add the number at that index, which represents the number that has duplicates.
 
