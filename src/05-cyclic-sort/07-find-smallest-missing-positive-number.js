@@ -28,7 +28,7 @@ const findSmallestMissingPositiveNumber = (nums) => {
     }
   }
 
-  return nums.length;
+  return nums.length + 1;
 };
 
 
@@ -40,3 +40,5 @@ console.log(findSmallestMissingPositiveNumber([8, 5, 6, 7, 4, 3, 5, 3, 2, 1]));
 console.log(findSmallestMissingPositiveNumber([8, 5, 6, 7, 4, 5, 3, 2, 1]));
 console.log(findSmallestMissingPositiveNumber([8, 5, 6, 7, 4, 5, 3, 2, 1, 11, 9]));
 console.log(findSmallestMissingPositiveNumber([8, 8, 5, 6, 6, 5, 3, 4, 1, 3, 7]));
+console.log(findSmallestMissingPositiveNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 11, 13, 14, 15]));
+console.log(findSmallestMissingPositiveNumber([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 11, 13, 14, 16]));
