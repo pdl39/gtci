@@ -1,10 +1,13 @@
 /* We are given an unsorted array containing ‘n’ numbers taken from the range 1 to ‘n’. The array has some numbers appearing twice, find all these duplicate numbers without using any extra space. */
 
+const swap = require('../../_utils/swap');
+
 // T: O(n)
 // S: O(n) --> O(n/2) > O(n). n/2 for the output array. Ignoring the space needed for the output array, it will be O(1).
 // where n = length of the input array.
 
 // This question is very similar to 03-find-all-missing-numbers, except that here, we return an array of duplicate numbers instead of returning an array of missing numbers. The only difference would be what we add to the output array when we encounter a number that is not in the correct place when we iterate the rearranged nums array - instead of adding index + 1, which represents the missing number, we will add the number at that index, which represents the number that has duplicates.
+
 
 const findAllDuplicates = (nums) => {
   const duplicates = [];
@@ -13,7 +16,7 @@ const findAllDuplicates = (nums) => {
     while (nums[i] !== i + 1) {
       const correctIndex = nums[i] - 1;
       if (nums[correctIndex] === nums[i]) break;
-      else swap(nums, i, correctIndex);
+      else swap(i, correctIndex, nums);
     }
   }
 
@@ -25,10 +28,6 @@ const findAllDuplicates = (nums) => {
   }
 
   return duplicates;
-}
-
-const swap = (arr, index1, index2) => {
-  [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
 }
 
 

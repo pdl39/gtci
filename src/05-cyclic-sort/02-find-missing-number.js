@@ -1,5 +1,7 @@
 /* We are given an array containing ‘n’ distinct numbers taken from the range 0 to ‘n’. Since the array has only ‘n’ numbers out of the total ‘n+1’ numbers, find the missing number. */
 
+const swap = require('../../_utils/swap');
+
 // T: O(n) --> n + (n-1) for rearranging the nums array, and another n for re-iterating the nums array to find the missing num index. O(n + (n-1) + n) -> O(n).
 // S: O(1)
 // where n = input array length.
@@ -12,7 +14,7 @@ function findMissingNumber(nums) {
   for (let i = 0; i < nums.length; i++) {
     while (nums[i] !== i && nums[i] < nums.length) {
       const correctIndex = nums[i];
-      swap(nums, i, correctIndex);
+      swap(i, correctIndex, nums);
     }
   }
 
@@ -25,9 +27,6 @@ function findMissingNumber(nums) {
   return nums.length;
 }
 
-const swap = (arr, index1, index2) => {
-  [arr[index1], arr[index2]] = [arr[index2], arr[index1]];
-}
 
 // TEST
 console.log(findMissingNumber([4, 0, 3, 1]));
