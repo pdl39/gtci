@@ -48,18 +48,9 @@ const rotateLinkedlist = (head, k) => {
     currentPosition++;
   }
   // Here, current is the target position node. Let's set this as the new head.
+  // Also from here, prev is the new tail node (n apart from the new head). Let's connect this to null, to revert it back to a non-cyclical singly linked list.
   head = current;
-  currentPosition = 1;
-
-  // starting from the new head, iterate by n to get to the new tail node.
-  while (current && currentPosition < n) {
-    prev = current;
-    current = current.next;
-
-    currentPosition++;
-  }
-  // Here, current is the new tail node. Let's connect this to null, to revert it back to a non-cyclical singly linked list.
-  current.next = null;
+  prev.next = null;
 
   return head;
 }
