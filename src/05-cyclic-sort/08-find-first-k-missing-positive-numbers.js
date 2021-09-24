@@ -8,14 +8,14 @@ const swap = require('../../_utils/swap');
 
 const findFirstKMissingPositiveNumbers = (nums, k) => {
   const firstKMissingPositiveNums = [];
-  const outOfRangeNums = [];
+  const outOfRangeNums = new Set();
 
   for (let i = 0; i < nums.length; i++) {
     while (nums[i] !== i + 1 && nums[i] > 0) {
       const correctIndex = nums[i] - 1;
       // if the number is out of range, add it to a separate array to store them.
       if (nums[correctIndex] === undefined) {
-        outOfRangeNums.push(nums[i]);
+        outOfRangeNums.add(nums[i]);
         break;
       };
       // skip duplicates.
@@ -35,17 +35,11 @@ const findFirstKMissingPositiveNumbers = (nums, k) => {
   // handle the remaining k after iterating throught the array.
   if (k > 0) {
     let nextMissingNum = nums.length + 1;
-    const outOfRangeNumsSorted = outOfRangeNums.sort((a, b) => a - b);
-    let i = 0;
+    // we must not include numbers in the array that were in the wrong index because they were out of range, but still should be included due to more numbers being considered by the remaining k.
+    while (outOfRangeNums.has(nextMissingNum)) {
+      nextMissingNum++;
+    }
     while (k > 0) {
-      while (i < outOfRangeNumsSorted.length) {
-        // we must not include numbers in the array that were in the wrong index because they were out of range, but still should be included due to more numbers being considered by the remaining k.
-        let smallestOutOfRangeNum = outOfRangeNumsSorted[i];
-        if (smallestOutOfRangeNum === nextMissingNum) {
-          i++;
-          nextMissingNum++;
-        }
-      }
       firstKMissingPositiveNums.push(nextMissingNum++);
       k--;
     }
