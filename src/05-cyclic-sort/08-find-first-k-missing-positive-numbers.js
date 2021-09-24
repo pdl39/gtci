@@ -3,8 +3,8 @@
 const swap = require('../../_utils/swap');
 
 // T: O(n + k) --> we also need k operations in the worst case for the last iteration.
-// S: O(n) --> n for the output array. Ignoring space needed for the output array, it would be O(1).
-// where n = length of the input array.
+// S: O(k) --> k for the output array.
+// where n = length of the input array, k = # of missing numbers to include in the output.
 
 const findFirstKMissingPositiveNumbers = (nums, k) => {
   const firstKMissingPositiveNums = [];
