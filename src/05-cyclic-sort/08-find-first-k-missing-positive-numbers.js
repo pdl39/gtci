@@ -2,7 +2,7 @@
 
 const swap = require('../../_utils/swap');
 
-// T: O(n)
+// T: O(n + k) --> we also need k operations in the worst case for the last iteration.
 // S: O(n) --> n for the output array. Ignoring space needed for the output array, it would be O(1).
 // where n = length of the input array.
 
@@ -24,9 +24,6 @@ const findFirstKMissingPositiveNumbers = (nums, k) => {
     }
   }
 
-  console.log({nums});
-  console.log({outOfRangeNums});
-
   for (let i = 0; i < nums.length; i++) {
     if (k === 0) break;
     if (nums[i] !== i + 1) {
@@ -35,21 +32,19 @@ const findFirstKMissingPositiveNumbers = (nums, k) => {
     }
   }
 
-  console.log('right before last loop');
-
+  // handle the remaining k after iterating throught the array.
   if (k > 0) {
     let nextMissingNum = nums.length + 1;
     const outOfRangeNumsSorted = outOfRangeNums.sort((a, b) => a - b);
-    console.log({outOfRangeNumsSorted});
     let i = 0;
     while (k > 0) {
       while (i < outOfRangeNumsSorted.length) {
+        // we must not include numbers in the array that were in the wrong index because they were out of range, but still should be included due to more numbers being considered by the remaining k.
         let smallestOutOfRangeNum = outOfRangeNumsSorted[i];
         if (smallestOutOfRangeNum === nextMissingNum) {
           i++;
           nextMissingNum++;
         }
-        console.log({nextMissingNum, smallestOutOfRangeNum})
       }
       firstKMissingPositiveNums.push(nextMissingNum++);
       k--;
