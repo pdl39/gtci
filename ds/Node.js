@@ -10,10 +10,22 @@ class Node {
 
     while (current) {
       list.push(current.value);
-      current = this.next;
+      current = current.next;
     }
 
     return list;
+  }
+
+  printDiagram() {
+    const list = [];
+    let current = this;
+
+    while (current) {
+      list.push(current.value);
+      current = current.next;
+    }
+
+    return list.join(' -> ');
   }
 }
 
