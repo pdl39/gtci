@@ -46,14 +46,7 @@ const reverseSublist = (head, p, q) => {
   let current = head;
   let prev = null;
 
-  /* We need to keep track of 3 different sections of the linked list:
-    1. head ~ last node before reverse
-    2. the sublist to reverse (first node to reverse ~ last node to reverse)
-    3. first node after reverse ~ tail
-  */
-
   let currentPosition = 1;
-  // move the current to point to the node at position p, and the prev to point to the node at p - 1.
   while (current && currentPosition < p) {
     prev = current;
     current = current.next;
@@ -61,11 +54,9 @@ const reverseSublist = (head, p, q) => {
     currentPosition++;
   }
 
-  // current should now be the node at position p, which should be the lastNodeOfReversedSublist. Note that the lastNodeOfReversedSublist is actually the first node of the mid section we are keeping track of, which will be the last node of the section after we reverse the section.
   const lastNodeOfFirstSection = prev;
   const lastNodeOfReversedSublist = current;
 
-  // until current reaches the node at position q, inclusive, we reverse the sublist in place and continue updating prev and current.
   while (current && currentPosition <= q) {
     let next = current.next;
     current.next = prev;
@@ -75,20 +66,14 @@ const reverseSublist = (head, p, q) => {
     currentPosition++;
   }
 
-  // At this point, prev is the last node of the sublist (or the first node of the reversed sublist), and current if the first node of the last section.
-  const firstNodeOfReversedSublist = prev;
-  const firstNodeOfLastSection = current;
-
-  // we need to re-connect the reversed sublist to each end of the linked list. As long as we have a non-null last node of first section, its next should be the first node of the reversed sublist. If there is no first section, it means the first node of the reversed sublist should be the head.
   if (lastNodeOfFirstSection) {
-    lastNodeOfFirstSection.next = firstNodeOfReversedSublist;
+    lastNodeOfFirstSection.next = prev;
   }
   else {
-    head = firstNodeOfReversedSublist;
+    head = prev;
   }
 
-  // connect the end of the reversed sublist to the last section. If there is no last section, firstNodeOfLastSection will already be null, so the following is all we need.
-  lastNodeOfReversedSublist.next = firstNodeOfLastSection;
+  lastNodeOfReversedSublist.next = current;
 
   return head;
 }
