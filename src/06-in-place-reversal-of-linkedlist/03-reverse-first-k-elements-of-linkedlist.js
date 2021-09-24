@@ -8,7 +8,7 @@ const Node = require('../../ds/Node');
 
 // This question is essentially the same as 02-reverse-a-sublist, except here, the 'first k elements of linkedlist' means p = 1 and q = k.
 
-const reverseSublist = (head, k) => {
+const reverseFirstKElements = (head, k) => {
   if (k === 1) return head;
 
   let current = head;
@@ -56,36 +56,36 @@ ex1Node.next.next.next.next.next.next = new Node(7);
 ex1Node.next.next.next.next.next.next.next = new Node(8);
 ex1Node.next.next.next.next.next.next.next.next = new Node(9);
 
-const reversedEx1 = reverseSublist(ex1Node, 6);
+const reversedEx1 = reverseFirstKElements(ex1Node, 6);
 console.log(reversedEx1.printDiagram());
-const revertedEx1 = reverseSublist(reversedEx1, 6);
+const revertedEx1 = reverseFirstKElements(reversedEx1, 6);
 console.log(revertedEx1.printDiagram());
 
 console.log('------');
 
-const reversedEx2 = reverseSublist(ex1Node, 5);
+const reversedEx2 = reverseFirstKElements(ex1Node, 5);
 console.log(reversedEx2.printDiagram());
-const revertedEx2 = reverseSublist(reversedEx2, 5);
+const revertedEx2 = reverseFirstKElements(reversedEx2, 5);
 console.log(revertedEx2.printDiagram());
 
 console.log('------');
 
-const reversedEx3 = reverseSublist(ex1Node, 1);
+const reversedEx3 = reverseFirstKElements(ex1Node, 1);
 console.log(reversedEx3.printDiagram());
-const revertedEx3 = reverseSublist(reversedEx3, 1);
+const revertedEx3 = reverseFirstKElements(reversedEx3, 1);
 console.log(revertedEx3.printDiagram());
 
 console.log('------');
 
-const reversedEx4 = reverseSublist(ex1Node, 10);
+const reversedEx4 = reverseFirstKElements(ex1Node, 10);
 console.log(reversedEx4.printDiagram());
-const revertedEx4 = reverseSublist(reversedEx4, 10);
+const revertedEx4 = reverseFirstKElements(reversedEx4, 10);
 console.log(revertedEx4.printDiagram());
 
 console.log('------');
 
-const reversedEx5 = reverseSublist(ex1Node, 2);
+const reversedEx5 = reverseFirstKElements(ex1Node, 2);
 console.log(reversedEx5.printDiagram());
-const revertedEx5 = reverseSublist(reversedEx5, 2);
+const revertedEx5 = reverseFirstKElements(reversedEx5, 2);
 console.log(revertedEx5.printDiagram());
 
