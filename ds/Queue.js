@@ -23,6 +23,7 @@ class Queue {
 
   dequeue() {
     if (this.length === 0) throw new Error('Queue is empty.');
+    let item = this.first;
 
     if (this.length === 1) {
       this.first = null;
@@ -30,10 +31,11 @@ class Queue {
     }
     else {
       const newFirst = this.first.next;
-      this.first.next = null;
       this.first = newFirst;
     }
     this.length--;
+
+    return item;
   }
 
   printList() {
