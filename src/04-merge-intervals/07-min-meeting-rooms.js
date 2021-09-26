@@ -11,22 +11,18 @@ const minMeetingRooms = (meetings) => {
   if (!meetings.length) return 0;
 
   const sortedMeetings = meetings.sort((a, b) => a.start - b.start);
-
   const activeMeetings = new MinIntervalEndHeap();
-  activeMeetings.add(sortedMeetings[0]);
 
-  let minRooms = activeMeetings.size;
+  let minRooms = 0;
 
-  for (let i = 1; i < sortedMeetings.length; i++) {
-    const currentMeeting = sortedMeetings[i];
-
+  for (let i = 0; i < sortedMeetings.length; i++) {
     // Remove any meetings in the active heap that has finished prior to the current meeting.
-    while (activeMeetings.size && activeMeetings.peek().end <= currentMeeting.start) {
+    while (activeMeetings.size && activeMeetings.peek().end <= sortedMeetings[i].start) {
       activeMeetings.poll();
     }
 
     // Add the current meeting to the active heap.
-    activeMeetings.add(currentMeeting);
+    activeMeetings.add(sortedMeetings[i]);
 
     // Update the minRooms needed if the current active meetings heap size > current minRooms count.
     minRooms = Math.max(minRooms, activeMeetings.size);
