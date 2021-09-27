@@ -4,7 +4,7 @@ const Tree = require('../../ds/BinaryTree');
 const Queue = require('../../ds/Queue');
 
 // T: O(n) --> traverse each tree node once.
-// S: O(n) --> n for the queue, logn for the output array.
+// S: O(n) --> n for the queue.
 // where n = # of nodes in the tree.
 
 const binaryTreeMinDepth = (root) => {
