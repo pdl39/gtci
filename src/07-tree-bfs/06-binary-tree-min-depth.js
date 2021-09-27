@@ -15,22 +15,19 @@ const binaryTreeMinDepth = (root) => {
 
   while (queue.length) {
     const levelSize = queue.length;
-    let leafNodeFound = false;
     minDepth++;
 
     for (let i = 0; i < levelSize; i++) {
       const current = queue.dequeue().value;
 
       if (!current.left && !current.right) {
-        leafNodeFound = true;
-        break;
+        return minDepth;
       }
 
       if (current.left) queue.add(current.left);
       if (current.right) queue.add(current.right);
 
     }
-    if (leafNodeFound) break;
   }
 
   return minDepth;
