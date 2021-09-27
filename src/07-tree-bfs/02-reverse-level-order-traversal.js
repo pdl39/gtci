@@ -33,7 +33,7 @@ const reverseLevelOrderTraverse2 = (root) => {
 
 
 // #1: Using one more array for the result.
-// T: O(n) --> traverse each tree node once.
+// T: O(n) --> O(n + logn): traverse each tree node once and then logn (# of levels, or depth of tree) for re-pushing the levels to the final output array.
 // S: O(n) --> O(3n): n for the output array, n for the intermediate array to store in-order levels, and n for the queue.
 // where n = # of nodes in the tree.
 
