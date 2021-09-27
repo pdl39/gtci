@@ -32,6 +32,7 @@ class Queue {
       node.next = this.first;
       this.first = node;
     }
+    this.length++;
   }
 
   dequeue() {
@@ -56,7 +57,7 @@ class Queue {
     let current = this.first;
 
     while (current) {
-      list.push(current);
+      list.push(current.value);
       current = current.next;
     }
 
