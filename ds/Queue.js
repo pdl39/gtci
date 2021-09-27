@@ -21,7 +21,7 @@ class Queue {
     this.length++;
   }
 
-  shift(value) {
+  unshift(value) {
     const node = new Node(value);
 
     if (this.length === 0) {

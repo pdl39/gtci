@@ -25,7 +25,7 @@ const reverseLevelOrderTraverse2 = (root) => {
       if (current.right) queue.add(current.right);
     }
 
-    levelOrderTree.shift(currentLevel);
+    levelOrderTree.unshift(currentLevel);
   }
 
   return levelOrderTree.printList();
