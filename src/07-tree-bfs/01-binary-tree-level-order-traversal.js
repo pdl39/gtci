@@ -12,11 +12,18 @@ const traverse = (root) => {
   const queue = new Queue(root);
 
   while (queue.length) {
-    const current = queue.dequeue().value; // the Queue stores each tree wrapped in a node, so to get the tree, we call the value property.
-    levelOrderTree.push(current.value);
+    const levelSize = queue.length;
+    const currentLevel = [];
 
-    if (current.left) queue.add(current.left);
-    if (current.right) queue.add(current.right);
+    for (let i = 0; i < levelSize; i++) {
+      const current = queue.dequeue().value; // the Queue stores each tree wrapped in a node, so to get the tree, we call the value property.
+      currentLevel.push(current.value);
+
+      if (current.left) queue.add(current.left);
+      if (current.right) queue.add(current.right);
+    }
+
+    levelOrderTree.push(currentLevel);
   }
 
   return levelOrderTree;
