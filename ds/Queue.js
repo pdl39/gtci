@@ -52,6 +52,10 @@ class Queue {
     return item;
   }
 
+  peek() {
+    return this.first;
+  }
+
   printList() {
     const list = [];
     let current = this.first;
