@@ -21,6 +21,19 @@ class Queue {
     this.length++;
   }
 
+  shift(value) {
+    const node = new Node(value);
+
+    if (this.length === 0) {
+      this.first = node;
+      this.last = node;
+    }
+    else {
+      node.next = this.first;
+      this.first = node;
+    }
+  }
+
   dequeue() {
     if (this.length === 0) throw new Error('Queue is empty.');
     let item = this.first;
