@@ -4,6 +4,34 @@ const Tree = require('../../ds/BinaryTree');
 const Queue = require('../../ds/Queue');
 
 
+// #2: Using queue (linked list) instead of array for the result.
+// T: O(n) --> traverse each tree node once.
+// S: O(n) --> O(2n): n for the output queue, and n for the intermediate queue.
+// where n = # of nodes in the tree.
+
+const reverseLevelOrderTraverse2 = (root) => {
+  const levelOrderTree = new Queue();
+  const queue = new Queue(root);
+
+  while (queue.length) {
+    const levelSize = queue.length;
+    const currentLevel = [];
+
+    for (let i = 0; i < levelSize; i++) {
+      const current = queue.dequeue().value;
+      currentLevel.push(current.value);
+
+      if (current.left) queue.add(current.left);
+      if (current.right) queue.add(current.right);
+    }
+
+    levelOrderTree.shift(currentLevel);
+  }
+
+  return levelOrderTree.printList();
+}
+
+
 // #1: Using one more array for the result.
 // T: O(n) --> traverse each tree node once.
 // S: O(n) --> O(3n): n for the output array, n for the intermediate array to store in-order levels, and n for the queue.
@@ -47,4 +75,5 @@ tree1.right = new Tree(9);
 tree1.right.left = new Tree(11);
 
 
+console.log(reverseLevelOrderTraverse2(tree1));
 console.log(reverseLevelOrderTraverse(tree1));
