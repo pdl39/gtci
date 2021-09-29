@@ -18,7 +18,7 @@ const findAllPaths = (current, s, currentPath, allPaths) => {
   currentPath.push(current.value);
 
   if (!current.left && !current.right && current.value === s) {
-    allPaths.push(...currentPath);
+    allPaths.push([...currentPath]);
   }
   else {
     s -= current.value;
