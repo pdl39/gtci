@@ -2,13 +2,35 @@
 
 const Tree = require('../../ds/BinaryTree');
 
+// #2: Using number logic - optimal.
+// T: O(n) --> we traverse each tree node once, and each node takes constant operation.
+// S: O(n) --> n for the call stack, which is equal to the height of the tree, which is n in the worst case.
+// where n = # of nodes in the tree.
+
+const sumOfPathNumbers2 = (root) => {
+  return sumOfPathNumbersRecursive2(root, 0);
+}
+
+const sumOfPathNumbersRecursive2 = (current, pathNum) => {
+  if (!current) return 0;
+
+  pathNum = (pathNum * 10) + current.value;
+
+  if (!current.left && !current.right) {
+    return pathNum;
+  }
+  else {
+    return sumOfPathNumbersRecursive2(current.left, pathNum) + sumOfPathNumbersRecursive2(current.right, pathNum);
+  }
+}
+
+
+// #1: Using array of strings - not optimal.
 // T: O(n^2) --> we need to traverse each tree node once, and for each leaf node, we need in worst case n operations to join the array of strings into string for conversion into number.
 // S: O(n) --> n for the call stack, which will be the height of the tree, which in the worst case will be n. Also, each currentNumber will be an array of a path's node values stringified, which will also have as many nodes as the height of the tree.
 // where n = # of nodes in the tree.
 
 const sumOfPathNumbers = (root) => {
-  if (!root) return null;
-
   const obj = {
     currentNumber: [],
     sum: 0
@@ -60,6 +82,12 @@ tree2.right.right = new Tree(5);
 // 171 + 172 + 183 + 185 = 711
 
 const tree3 = null;
+
+console.log(sumOfPathNumbers2(tree1));
+console.log(sumOfPathNumbers2(tree2));
+console.log(sumOfPathNumbers2(tree3));
+
+console.log('------');
 
 console.log(sumOfPathNumbers(tree1));
 console.log(sumOfPathNumbers(tree2));
