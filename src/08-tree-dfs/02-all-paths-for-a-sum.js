@@ -2,9 +2,9 @@
 
 const Tree = require('../../ds/BinaryTree');
 
-// T: O()
-// S: O()
-// where
+// T: O(n^2) --> we need to traverse each tree node once, and for each node, we need to make a copy of the currentPath array, which requires additional n operations (height # of operations, which in the worst case will be n). If we have, on average, a balanced tree, the average time could be considered O(nlogn).
+// S: O(n) --> n for the recursive call stack, which will be the height of the tree - in the worst case, a tree can be a linked list, making its height = n. The output allPaths array requires at most (n + 1) / 2 number of paths - this will be the max number of leaves for a tree, since there will only be as many paths as there are leaf nodes. Each path will contain as many nodes as the height of the tree - all nodes from the root to the leaf. In the worst case height scenario, there will only be one path and allPaths will have n nodes, while if the tree is balanced, height will be logn, making the space requirement for allPaths O(nlogn). So if we have a balanced tree, we can say the space will be O(nlogn).
+// where n = # of nodes in the tree.
 
 const findAllPathsForASum = (root, s) => {
   const allPaths = [];
