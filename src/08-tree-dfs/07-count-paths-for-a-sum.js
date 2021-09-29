@@ -2,8 +2,8 @@
 
 const Tree = require('../../ds/BinaryTree');
 
-// T: O()
-// S: O()
+// T: O(n^2) --> we traverse each node once, and for each node, we run n operations in the worst case (# of nodes in currentPath). If the tree is balanced, this would be logn, and the overall time would be O(nlogn).
+// S: O(n) --> n for the recursion stack. n for currentPath array.
 // where n = # of nodes in the tree.
 
 const countPathsForASum = (root, s) => {
