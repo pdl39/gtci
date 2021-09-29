@@ -53,6 +53,8 @@ console.log(pathWithGivenSequence(tree1, [1, 2, 3, 10]));
 console.log(pathWithGivenSequence(tree1, [1, 3, 6, 2]));
 console.log(pathWithGivenSequence(tree1, [1, 3, 7, 3]));
 console.log(pathWithGivenSequence(tree1, [1, 3, 6, 3]));
+console.log(pathWithGivenSequence(tree1, [1, 3, 6, 3, 11]));
+console.log(pathWithGivenSequence(tree1, [1, 3, 6]));
 console.log(pathWithGivenSequence(tree2, [1, 7, 2]));
 console.log(pathWithGivenSequence(tree2, [1, 7, 1]));
 console.log(pathWithGivenSequence(tree2, [1, 8, 1]));
