@@ -9,6 +9,7 @@ const Tree = require('../../ds/BinaryTree');
 // where n = # of nodes in the tree.
 
 const treeDiameter = (root) => {
+  // we pass down an object containing the result variable (max) to keep track of the running max value throughout the recursive calls.
   const result = { max: 0 };
   treeDiameterRecursive(root, result);
   return result.max;
@@ -20,8 +21,11 @@ const treeDiameterRecursive = (current, result) => {
   let leftPathLen = treeDiameterRecursive(current.left, result);
   let rightPathLen = treeDiameterRecursive(current.right, result);
 
+  // The diameter of the path with the current node as the root will be the sum of its left path length, right path length, and 1 (for itself).
+  // We will compare this with the current max tree diameter, and update the max diameter if the current diameter is bigger.
   result.max = Math.max(result.max, leftPathLen + rightPathLen + 1);
 
+  // We will return the max path length of the node's left or right path + 1. This will be used as the child path length for its parent to calculate the diameter.
   return Math.max(leftPathLen, rightPathLen) + 1;
 }
 
