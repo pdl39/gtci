@@ -2,8 +2,8 @@ class PriorityQueue {
   #capacity;
 
   /* comparator determines the priority type (min vs max)
-  and what values are to be compared.
-  If no comparator function is entered, the priority queue will default to a min heap.
+  and what values are to be compared (if items in the heap are nodes, for example, we would need to compare the values of the nodes, e.g. a.value < b.value, whereas if items in the heap are numbers, we can simply compare items themselves, e.g. a > b).
+  If no comparator function is entered, the priority queue will default to a min heap, with the compared values being the items themselves.
   It takes two arguments (a, b) that each represent the actual item that gets stored in the priority queue.
   It returns the boolean result of comparing a verion of a and b.
   e.g. a > b, a.end < b.start, etc.
