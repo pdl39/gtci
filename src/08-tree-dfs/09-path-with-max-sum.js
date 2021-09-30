@@ -12,7 +12,7 @@ const Tree = require('../../ds/BinaryTree');
 // This question is essentially same as tree-diameter, except that here, we keep track of the path sum instead of path length. The only other thing we need to keep in mind is any path that has a negative sum. In such case, adding this partial sum to the total path sum for a node will reduce the overall sum, so we should ignore any child path that has a negative sum - we will cut of any partial path that is overall negative.
 
 const pathWithMaxSum = (root) => {
-  const sum = { max: 0 };
+  const sum = { max: -Infinity };
   pathWithMaxSumRecursive(root, sum);
   return sum.max;
 }
@@ -95,6 +95,14 @@ tree7.right.right = new Tree(-6);
 tree7.right.right.left = new Tree(-1);
 tree7.right.right.right = new Tree(2);
 
+const tree8 = new Tree(-5);
+tree8.left = new Tree(-2);
+tree8.right = new Tree(-1);
+tree8.right.left = new Tree(-3);
+tree8.right.right = new Tree(-2);
+tree8.right.right.left = new Tree(-4);
+tree8.right.right.right = new Tree(-9);
+
 
 console.log(pathWithMaxSum(tree1));
 console.log(pathWithMaxSum(tree2));
@@ -103,3 +111,4 @@ console.log(pathWithMaxSum(tree4));
 console.log(pathWithMaxSum(tree5));
 console.log(pathWithMaxSum(tree6));
 console.log(pathWithMaxSum(tree7));
+console.log(pathWithMaxSum(tree8));
