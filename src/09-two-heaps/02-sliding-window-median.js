@@ -29,21 +29,21 @@ const SlidingWindowNumberStream = require('../../ds/TwoHeaps');
 
 const slidingWindowMedian2 = (nums, k) => {
   const medians = [];
-  const twoHeaps = new SlidingWindowNumberStream();
+  const subarr = new SlidingWindowNumberStream();
   let windowStart = 0;
 
   for (let windowEnd = 0; windowEnd < nums.length; windowEnd++) {
     // add the newly included num to the current window subarray.
-    twoHeaps.insertNum(nums[windowEnd]); // O(logk)
+    subarr.insertNum(nums[windowEnd]); // O(logk)
 
     // until we have a k element window, continue.
     if (windowEnd - windowStart + 1 < k) {
       continue;
     }
 
-    medians.push(twoHeaps.findMedian()); // O(1)
+    medians.push(subarr.findMedian()); // O(1)
     // remove outgoing num & slide the window.
-    twoHeaps.remove(nums[windowStart]); // O(k)
+    subarr.remove(nums[windowStart]); // O(k)
     windowStart++;
   }
   return medians;
