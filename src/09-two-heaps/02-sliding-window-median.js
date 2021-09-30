@@ -1,7 +1,6 @@
 /* Given an array of numbers and a number ‘k’, find the median of all the ‘k’ sized sub-arrays (or windows) of the array.
 
 Example 1:
-
 Input: nums=[1, 2, -1, 3, 5], k = 2
 Output: [1.5, 0.5, 1.0, 4.0]
 Explanation: Lets consider all windows of size ‘2’:
@@ -10,79 +9,18 @@ Explanation: Lets consider all windows of size ‘2’:
 [1, 2, -1, 3, 5] -> median is 0.5
 [1, 2, -1, 3, 5] -> median is 1.0
 [1, 2, -1, 3, 5] -> median is 4.0
-Example 2:
 
+Example 2:
 Input: nums=[1, 2, -1, 3, 5], k = 3
 Output: [1.0, 2.0, 3.0]
 Explanation: Lets consider all windows of size ‘3’:
 
 [1, 2, -1, 3, 5] -> median is 1.0
 [1, 2, -1, 3, 5] -> median is 2.0
-[1, 2, -1, 3, 5] -> median is 3.0 */
+[1, 2, -1, 3, 5] -> median is 3.0
+*/
 
-const Heap = require("../../ds/PriorityQueue");
-
-class SlidingWindowNumberStream {
-  constructor() {
-    this.firstHalf = new Heap((a, b) => a > b); // max heap
-    this.secondHalf = new Heap((a, b) => a < b); // min heap
-  }
-
-  size() {
-    return this.firstHalf.size + this.secondHalf.size;
-  }
-
-  insertNum(num) {
-    if (this.size() === 0 || num < this.firstHalf.peek()) {
-      this.firstHalf.add(num);
-    }
-    else {
-      this.secondHalf.add(num);
-    }
-
-    this.rebalanceHeaps();
-  }
-
-  rebalanceHeaps() {
-    while (this.firstHalf.size - this.secondHalf.size > 1) {
-      const item = this.firstHalf.poll();
-      this.secondHalf.add(item);
-    }
-    while (this.secondHalf.size > this.firstHalf.size) {
-      const item = this.secondHalf.poll();
-      this.firstHalf.add(item);
-    }
-  }
-
-  findMedian() {
-    const streamSize = this.size();
-    let median = this.firstHalf.peek();
-
-    if (streamSize % 2 === 0) {
-      median = (this.firstHalf.peek() + this.secondHalf.peek()) / 2.0;
-    }
-
-    return median;
-  }
-
-  // add the following method to remove a particular num from the heap.
-  remove(num) {
-    if (num === this.firstHalf.peek()) {
-      this.firstHalf.poll();
-    }
-    else if (num === this.secondHalf.peek()) {
-      this.secondHalf.poll();
-    }
-    else if (num < this.firstHalf.peek()) {
-      this.firstHalf.remove(num);
-    }
-    else if (num > this.secondHalf.peek()) {
-      this.secondHalf.remove(num);
-    }
-
-    this.rebalanceHeaps();
-  }
-}
+const SlidingWindowNumberStream = require('../../ds/TwoHeaps');
 
 // #2: optimal solution.
 // T: O(n * k) --> we traverse each num once using sliding window technique, and for each window, we do two operations - 1) insert the new number and 2) remove the outgoing number. Inserting takes logk operations, while removing a particular number from the heap takes k operations, since in the worst case we have to look at all numbers in the heap to find and remove it.
