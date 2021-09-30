@@ -9,7 +9,7 @@ const Tree = require('../../ds/BinaryTree');
 // S: O(n) --> n for the recursive stack.
 // where n = # of nodes in the tree.
 
-// This question is essentially same as tree-diameter, except that here, we keep track of the path sum instead of path length. This is only when we assume all nodes have positive values, since with only positive values, the max sum will always occur in paths containing leaf nodes - any additional nodes in the path will have greater sum vs. not including it, where as if a node can contain negative values, having additional nodes in the path may actually reduce the sum.
+// This question is essentially same as tree-diameter, except that here, we keep track of the path sum instead of path length. The only other thing we need to keep in mind is any path that has a negative sum. In such case, adding this partial sum to the total path sum for a node will reduce the overall sum, so we should ignore any child path that has a negative sum - we will cut of any partial path that is overall negative.
 
 const pathWithMaxSum = (root) => {
   const sum = { max: 0 };
@@ -22,6 +22,10 @@ const pathWithMaxSumRecursive = (current, sum) => {
 
   let leftPathSum = pathWithMaxSumRecursive(current.left, sum);
   let rightPathSum = pathWithMaxSumRecursive(current.right, sum);
+
+  // if any child path has a negative sum, we will ignore it, as adding it will reduce the total path sum.
+  leftPathSum = Math.max(leftPathSum, 0);
+  rightPathSum = Math.max(rightPathSum, 0);
 
   sum.max = Math.max(sum.max, leftPathSum + rightPathSum + current.value);
 
@@ -75,9 +79,27 @@ tree5.right.left = new Tree(5);
 tree5.right.right = new Tree(6);
 tree5.right.right.right = new Tree(2);
 
+const tree6 = new Tree(1);
+tree6.left = new Tree(-2);
+tree6.right = new Tree(3);
+tree6.right.left = new Tree(-5);
+tree6.right.right = new Tree(6);
+tree6.right.right.left = new Tree(-1);
+tree6.right.right.right = new Tree(2);
+
+const tree7 = new Tree(1);
+tree7.left = new Tree(-2);
+tree7.right = new Tree(3);
+tree7.right.left = new Tree(5);
+tree7.right.right = new Tree(-6);
+tree7.right.right.left = new Tree(-1);
+tree7.right.right.right = new Tree(2);
+
 
 console.log(pathWithMaxSum(tree1));
 console.log(pathWithMaxSum(tree2));
 console.log(pathWithMaxSum(tree3));
 console.log(pathWithMaxSum(tree4));
 console.log(pathWithMaxSum(tree5));
+console.log(pathWithMaxSum(tree6));
+console.log(pathWithMaxSum(tree7));
