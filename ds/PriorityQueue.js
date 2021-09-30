@@ -6,6 +6,10 @@ class PriorityQueue {
   It takes two arguments (a, b) that each represent the actual item that gets stored in the priority queue.
   It returns the boolean result of comparing a verion of a and b.
   e.g. a > b, a.end < b.start, etc.
+  Given a, b, in that order, if a < b, it is a min heap, if a > b, it is a max heap.
+  e.g.
+  (a, b) => a < b     min heap
+  (a, b) => a > b     max heap
   */
   constructor(comparator, capacity = 10) {
     this.#capacity = capacity;
