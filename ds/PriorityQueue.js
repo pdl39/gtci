@@ -2,12 +2,17 @@ class PriorityQueue {
   #capacity;
 
   /* comparator determines the priority type (min vs max)
-  and what values are to be compared.
+  and what values are to be compared (if items in the heap are nodes, for example, we would need to compare the values of the nodes, e.g. a.value < b.value, whereas if items in the heap are numbers, we can simply compare items themselves, e.g. a > b).
+  If no comparator function is entered, the priority queue will default to a min heap, with the compared values being the items themselves.
   It takes two arguments (a, b) that each represent the actual item that gets stored in the priority queue.
   It returns the boolean result of comparing a verion of a and b.
   e.g. a > b, a.end < b.start, etc.
+  Given a, b, in that order, if a < b, it is a min heap, if a > b, it is a max heap.
+  e.g.
+  (a, b) => a < b     min heap
+  (a, b) => a > b     max heap
   */
-  constructor(comparator, capacity = 10) {
+  constructor(comparator = (a, b) => a < b, capacity = 10) {
     this.#capacity = capacity;
     this.comparator = comparator;
     this.size = 0;
@@ -111,6 +116,21 @@ class PriorityQueue {
       }
       else break;
     }
+  }
+
+  remove(num) {
+    let index = 0;
+    while (num !== this.items[index] && index < this.size) {
+      index++;
+    }
+
+    if (index === this.size) throw new Error(`ERROR: ${num} is not in the heap.`);
+
+    for (let i = index; i < this.size - 1; i++) {
+      this.#swap(i, i + 1);
+    }
+    this.items[this.size - 1] = null;
+    this.size--;
   }
 };
 
