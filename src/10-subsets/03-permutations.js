@@ -16,6 +16,8 @@ const Queue = require('../../ds/Queue');
 // S: O(n * n!) --> n! for the result permutations. Each permutation in the result permutations will contain n numbers, so the overall space required will be O(n * n!)
 // where n = # of distinct numbers, or the input array length.
 
+
+// #1
 const findAllPermutations = (nums) => {
   const result = [];
   const permutations = new Queue([]);
@@ -44,6 +46,28 @@ const findAllPermutations = (nums) => {
 }
 
 
+// #2: Recursive solution
+const findAllPermutations2 = (nums) => {
+  const result = [];
+  findAllPermutationsRecursive(nums, 0, [], result);
+  return result;
+}
+
+const findAllPermutationsRecursive = (nums, index, currentPermutation, result) => {
+  if (index === nums.length) {
+    result.push(currentPermutation);
+  }
+  else {
+    for (let i = 0; i < currentPermutation.length + 1; i++) {
+      const newPermutation = [...currentPermutation];
+      newPermutation.splice(i, 0, nums[index]);
+
+      findAllPermutationsRecursive(nums, index + 1, newPermutation, result);
+    }
+  }
+}
+
+
 // TEST
 const ex1 = [1];
 const ex2 = [1, 2];
@@ -55,3 +79,8 @@ console.log(findAllPermutations(ex2));
 console.log(findAllPermutations(ex3));
 console.log(findAllPermutations(ex4));
 console.log(findAllPermutations(ex5));
+console.log(findAllPermutations2(ex1));
+console.log(findAllPermutations2(ex2));
+console.log(findAllPermutations2(ex3));
+console.log(findAllPermutations2(ex4));
+console.log(findAllPermutations2(ex5));
