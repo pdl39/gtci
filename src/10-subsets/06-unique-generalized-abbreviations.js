@@ -92,7 +92,7 @@ const findAllUniqueGenAbbs2 = (str) => {
     const genAbb = combinations.dequeue().value;
 
     if (genAbb.start === str.length) {
-      if (genAbb.count !== 0) {
+      if (genAbb.count > 0) {
         genAbb.str += genAbb.count;
       }
       result.push(genAbb.str);
@@ -100,7 +100,7 @@ const findAllUniqueGenAbbs2 = (str) => {
     else {
       combinations.add(new GenAbb(`${genAbb.str}`, genAbb.start + 1, genAbb.count + 1));
 
-      if (genAbb.count !== 0) {
+      if (genAbb.count > 0) {
         genAbb.str += genAbb.count;
       }
 
@@ -112,8 +112,40 @@ const findAllUniqueGenAbbs2 = (str) => {
 }
 
 
+// #3: Recursive Solution
+// same time & space complexity.
+
+const findAllUniqueGenAbbs3 = (str) => {
+  const result = [];
+  findAllUniqueGenAbbsRecursive('', 0, 0, str, result);
+  return result;
+}
+
+const findAllUniqueGenAbbsRecursive = (genAbbStr, index, count, str, result) => {
+  let newGenAbbStr = genAbbStr;
+  if (count > 0) {
+    newGenAbbStr += count;
+  }
+
+  // base case
+  if (index === str.length) {
+    result.push(newGenAbbStr);
+  }
+  // recursive case
+  else {
+    findAllUniqueGenAbbsRecursive(genAbbStr, index + 1, count + 1, str, result);
+
+    newGenAbbStr += str[index];
+
+    findAllUniqueGenAbbsRecursive(newGenAbbStr, index + 1, 0, str, result);
+  }
+}
+
+
 // TEST
 console.log(findAllUniqueGenAbbs('BAT'));
 console.log(findAllUniqueGenAbbs('code'));
 console.log(findAllUniqueGenAbbs2('BAT'));
 console.log(findAllUniqueGenAbbs2('code'));
+console.log(findAllUniqueGenAbbs3('BAT'));
+console.log(findAllUniqueGenAbbs3('code'));
