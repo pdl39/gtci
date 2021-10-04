@@ -14,6 +14,9 @@ Input: "code"
 Output: "code", "cod1", "co1e", "co2", "c1de", "c1d1", "c2e", "c3", "1ode", "1od1", "1o1e", "1o2",
 "2de", "2d1", "3e", "4" */
 
+const Queue = require('../../ds/Queue');
+
+// #1: subsets & generate genAbb for each subset.
 // T: O(n * 2^n) --> in total we will be looking at 2^n substrings, and for each substring, we do multiple n operations - for copying the substring, generating the generalized abbreviations, etc.
 // S: O(n * 2^n) --> 2^n for the output array (corresponding to all subsets). Each substring has length of up to n.
 // where n = input string length.
@@ -68,6 +71,49 @@ const generateGenAbb = (original, subset) => {
 }
 
 
+// #2: Using queue & dual operations per subset.
+// T: O(n * 2^n)
+// S: O(n * 2^n)
+// where n = input string length.
+
+class GenAbb {
+  constructor(str, start, count) {
+    this.str = str;
+    this.start = start;
+    this.count = count;
+  }
+};
+
+const findAllUniqueGenAbbs2 = (str) => {
+  const result = [];
+  const combinations = new Queue(new GenAbb('', 0, 0));
+
+  while (combinations.length) {
+    const genAbb = combinations.dequeue().value;
+
+    if (genAbb.start === str.length) {
+      if (genAbb.count !== 0) {
+        genAbb.str += genAbb.count;
+      }
+      result.push(genAbb.str);
+    }
+    else {
+      combinations.add(new GenAbb(`${genAbb.str}`, genAbb.start + 1, genAbb.count + 1));
+
+      if (genAbb.count !== 0) {
+        genAbb.str += genAbb.count;
+      }
+
+      combinations.add(new GenAbb(`${genAbb.str}${str[genAbb.start]}`, genAbb.start + 1, 0));
+    }
+  }
+
+  return result;
+}
+
+
 // TEST
 console.log(findAllUniqueGenAbbs('BAT'));
 console.log(findAllUniqueGenAbbs('code'));
+console.log(findAllUniqueGenAbbs2('BAT'));
+console.log(findAllUniqueGenAbbs2('code'));
