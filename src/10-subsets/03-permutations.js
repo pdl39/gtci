@@ -12,7 +12,7 @@ If a set has ‘n’ distinct elements it will have n! permutations. */
 
 const Queue = require('../../ds/Queue');
 
-// T: O(n * n!) --> we are essentially doing n! operations to get all the permutations. For each permutation, we need to copy it, so we need n operations for each permutation, resulting in O(n * n!) operations.
+// T: O(n * n!) --> we are essentially doing n! operations to get all the permutations. For each permutation, we need to copy it. Also, inserting the current number into each permutation takes O(n). So we need n operations overall for each permutation, resulting in O(n * n!) operations.
 // S: O(n * n!) --> n! for the result permutations. Each permutation in the result permutations will contain n numbers, so the overall space required will be O(n * n!)
 // where n = # of distinct numbers, or the input array length.
 
