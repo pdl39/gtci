@@ -23,6 +23,7 @@ class ParenStr {
   }
 }
 
+// #1
 const findAllBalancedParenCombintations = (n) => {
   const balancedParens = [];
   const combinations = new Queue(new ParenStr('', 0, 0));
@@ -46,9 +47,41 @@ const findAllBalancedParenCombintations = (n) => {
   return balancedParens;
 }
 
+// #2: Recursive Approach
+const findAllBalancedParenCombintations2 = (n) => {
+  const balancedParens = [];
+  findAllBalancedParenCombintationsRecursive(new ParenStr('', 0, 0), n, balancedParens);
+  return balancedParens;
+}
+
+const findAllBalancedParenCombintationsRecursive = (newComb, n,balancedParens) => {
+  // base case
+  if (newComb.openCount === n && newComb.closeCount === n) {
+    balancedParens.push(newComb.str);
+    return;
+  }
+
+  // recursive case
+  if (newComb.openCount < n) {
+    findAllBalancedParenCombintationsRecursive(new ParenStr(`${newComb.str}(`, newComb.openCount + 1, newComb.closeCount), n, balancedParens);
+  }
+  if (newComb.openCount > newComb.closeCount) {
+    findAllBalancedParenCombintationsRecursive(new ParenStr(`${newComb.str})`, newComb.openCount, newComb.closeCount + 1), n, balancedParens);
+  }
+
+  return;
+};
+
 
 // TEST
 console.log(findAllBalancedParenCombintations(1));
 console.log(findAllBalancedParenCombintations(2));
 console.log(findAllBalancedParenCombintations(3));
 console.log(findAllBalancedParenCombintations(4));
+
+console.log('--------');
+
+console.log(findAllBalancedParenCombintations2(1));
+console.log(findAllBalancedParenCombintations2(2));
+console.log(findAllBalancedParenCombintations2(3));
+console.log(findAllBalancedParenCombintations2(4));
