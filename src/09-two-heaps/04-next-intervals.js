@@ -56,3 +56,4 @@ const findNextInterval = (intervals) => {
 
 // TEST
 console.log(findNextInterval([[1, 2], [2, 4], [3, 5], [5, 6], [4, 7]]));
+console.log(findNextInterval([[2, 3], [3, 4], [5, 6]]));
