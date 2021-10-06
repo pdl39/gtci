@@ -26,9 +26,9 @@ Output: 'a'
 Explanation: As the array is assumed to be circular, the smallest letter greater than 'h' is 'a'.
  */
 
-// T: O()
-// S: O()
-// where
+// T: O(logn)
+// S: O(1)
+// where n = input array length.
 
 // This question is very similar to 02-ceil-of-a-number, but with a couple of teaks: 1) we are looking the smallest number > key, NOT >= key. 2) the arr is assumed to be cirular, meaning we won't every return -1 for no ceiling found, but there will always be a result, which in the case where the last element of arr is < key, we will just return the first element of the arr.
 
