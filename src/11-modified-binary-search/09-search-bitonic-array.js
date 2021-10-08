@@ -25,7 +25,7 @@ Output: 0 */
 
 
 const searchBitonicArr = (arr, key) => {
-  const [arrMax, maxIdx] = findBitonicArrMax(arr);
+  const maxIdx = findBitonicArrMax(arr);
 
   let low = 0;
   let high = maxIdx;
@@ -52,7 +52,7 @@ const findBitonicArrMax = (arr) => {
     }
   }
   // After we come out of the loop, low === high.
-  return [arr[low], low];
+  return low;
 }
 
 const binarySearch = (arr, key, isAscending, low, high) => {
@@ -77,3 +77,5 @@ const binarySearch = (arr, key, isAscending, low, high) => {
 console.log(searchBitonicArr([1, 2, 3, 5, 7, 8, 11, 10, 3], 8));
 console.log(searchBitonicArr([1, 3, 5, 7, 8, 11, 10, 3], 3));
 console.log(searchBitonicArr([1, 3, 5, 7, 8, 11, 10, 3], 9));
+console.log(searchBitonicArr([11, 10, 7, 3], 7));
+console.log(searchBitonicArr([1, 3, 4, 5, 8, 9], 5));
