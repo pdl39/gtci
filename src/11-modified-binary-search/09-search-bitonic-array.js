@@ -68,7 +68,6 @@ const binarySearch = (arr, key, isAscending, low, high) => {
       high = mid - 1;
     }
   }
-  // After we come out of the loop, low === high.
   return -1;
 }
 
