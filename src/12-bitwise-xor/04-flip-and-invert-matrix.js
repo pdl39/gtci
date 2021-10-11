@@ -35,10 +35,34 @@ Output: [
 Explanation: First reverse each row: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]]. Then invert the image: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
 */
 
-// T: O(n * m) --> we do 2 iterations through the matrix, first time to flip horizontally (n * m/2), and then to invert all elements (n * m).
+// T: O(n * m) --> we must iterate throught all the elements in the matrix.
 // S: O(1)
 // where n = # of matrix rows, m = # of columns for each row.
 
+// #2: In one go.
+const flipAndInvertMatrix2 = (matrix) => {
+  for (let i = 0; i < matrix.length; i++) {
+    let left = 0;
+    let right = matrix[i].length - 1;
+
+    while (left < right) {
+      [matrix[i][left], matrix[i][right]] = [matrix[i][right], matrix[i][left]]; // flip.
+
+      matrix[i][left] ^= 1;
+      matrix[i][right] ^= 1; // invert.
+
+      left++, right--;
+    }
+
+    if (left === right) {
+      matrix[i][left] ^= 1; // handle middle element in case of odd length.
+    }
+  }
+
+  return matrix;
+}
+
+// #1: Two separate loops.
 const flipAndInvertMatrix = (matrix) => {
   // flip horizontally
   for (let i = 0; i < matrix.length; i++) {
@@ -64,18 +88,37 @@ const flipAndInvertMatrix = (matrix) => {
 
 
 // TEST
-const matrix1 = [
+let matrix1 = [
   [0, 1, 0, 1, 0, 0, 1],
   [1, 0, 1, 1, 1, 0, 1],
   [1, 1, 0, 1, 1, 0, 0],
   [0, 1, 0, 0, 1, 0, 1],
   [1, 0, 1, 1, 0, 1, 0],
 ];
-const matrix2 = [
+let matrix2 = [
   [1, 1, 0, 0],
   [1, 0, 0, 1],
   [0, 1, 1, 1],
   [1, 0, 1, 0]
 ];
+console.log(flipAndInvertMatrix2(matrix1));
+console.log(flipAndInvertMatrix2(matrix2));
+
+console.log('---------------');
+
+matrix1 = [
+  [0, 1, 0, 1, 0, 0, 1],
+  [1, 0, 1, 1, 1, 0, 1],
+  [1, 1, 0, 1, 1, 0, 0],
+  [0, 1, 0, 0, 1, 0, 1],
+  [1, 0, 1, 1, 0, 1, 0],
+];
+matrix2 = [
+  [1, 1, 0, 0],
+  [1, 0, 0, 1],
+  [0, 1, 1, 1],
+  [1, 0, 1, 0]
+];
+
 console.log(flipAndInvertMatrix(matrix1));
 console.log(flipAndInvertMatrix(matrix2));
