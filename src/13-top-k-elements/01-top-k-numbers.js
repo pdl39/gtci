@@ -13,6 +13,33 @@ Output: [12, 11, 12] */
 
 const Heap = require('../../ds/PriorityQueue');
 
+// #2: Optimal solution.
+// T: O(nlogk) --> At any point in time, we keep a heap of length k. We go through each number in the input array and perform poll/add operations as needed, which take logk time.
+// S: O(k) --> k for the output array, and for the heap.
+// where n = input array length, k = number of top numbers to find.
+
+const findTopKNumbers2 = (arr, k) => {
+  const topKNums = [];
+  const minHeap = new Heap((a, b) => a < b);
+
+  for (let i = 0; i < k; i++) {
+    minHeap.add(arr[i]);
+  }
+
+  for (let i = k; i < arr.length; i++) {
+    if (arr[i] > minHeap.peek()) {
+      minHeap.poll();
+      minHeap.add(arr[i]);
+    }
+  }
+
+  for (let i = 0; i < k; i++) {
+    topKNums.push(minHeap.poll());
+  }
+
+  return topKNums;
+}
+
 // T: O(nlogn) --> adding a number to the heap is a logn operation, which we do for all numbers for nlogn time. polling is also a logn operation, which, in the worst case where k = n, will also be nlogn time.
 // S: O(n) --> n for the heap, k for the output array. k <= n.
 // where n = input array length, k = number of top numbers to find.
@@ -31,5 +58,10 @@ const findTopKNumbers = (arr, k) => {
 
 
 // TEST
+console.log(findTopKNumbers2([1, 7, 4, 5, 3, 9, 11, 3, 33, 2, 0, 18, 12, 5, 21, 15], 3));
+console.log(findTopKNumbers2([1, 7, 4, 5, 3, 9, 11, 3, 33, 2, 0, 18, 12, 5, 21, 15], 5));
+
+console.log('------------------');
+
 console.log(findTopKNumbers([1, 7, 4, 5, 3, 9, 11, 3, 33, 2, 0, 18, 12, 5, 21, 15], 3));
 console.log(findTopKNumbers([1, 7, 4, 5, 3, 9, 11, 3, 33, 2, 0, 18, 12, 5, 21, 15], 5));
