@@ -148,8 +148,6 @@ class PriorityQueue {
       this.items[i] = arr[i];
       this.heapifyDown(i);
     }
-
-    console.log(this.items)
   }
 };
 
