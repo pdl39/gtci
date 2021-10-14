@@ -22,10 +22,12 @@ const findTopKNumbers2 = (arr, k) => {
   const topKNums = [];
   const minHeap = new Heap((a, b) => a < b);
 
+  // Add the first k elements to a min heap. The top number will be the smallest number.
   for (let i = 0; i < k; i++) {
     minHeap.add(arr[i]);
   }
 
+  // For each subsequent number, add to the heap if it is bigger than the smallest number in the heap. Remove this smallest number, since we want to keep the 3 biggest numbers in the heap. Any number smaller than the current smallest number will be skipped.
   for (let i = k; i < arr.length; i++) {
     if (arr[i] > minHeap.peek()) {
       minHeap.poll();
