@@ -133,7 +133,7 @@ class PriorityQueue {
     this.size--;
   }
 
-  build(arr) {
+  build(arr) { // build a heap from the input array in O(n) time using heapify algorithm.
     if (this.size) throw new Error('ERROR: Heap already exists.');
 
     this.size = arr.length;
