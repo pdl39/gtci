@@ -13,7 +13,6 @@ Example 3:
 Input: [2, 4, 5, 6, 9], K = 3, X = 10
 Output: [5, 6, 9] */
 
-const Heap = require('../../ds/PriorityQueue');
 
 // T: O(logn + k) --> logn to find the closest number index using binary search, k to get the subarray of k closest numbers by moving two pointers, k to add the subarray of k numbers to the output array.
 // S: O(k) --> k for the output array.
