@@ -20,6 +20,7 @@ Explanation: The 3rd smallest number is '11', as the first two small numbers are
 
 const Heap = require('../../ds/PriorityQueue');
 
+// #1: Using max heap.
 // T: O(nlogk) --> we iterate through all numbers in the input array, and for each perform poll/add operation as needed, wwhich takes logk time.
 // S: O(k) --> we keep max k numbers at a time in the heap.
 // where n = input array length, k = kth number to find.
@@ -44,7 +45,40 @@ const findKthSmallestNumber = (arr, k) => {
 }
 
 
+// #2: Using min heap.
+// T: O(n + klogn) --> wInitializing the min heap with all n numbers takes n time. Extracting k numbers from the min heap with n elements takes k * logn time.
+// S: O(n) --> we keep all n numbers in the heap.
+// where n = input array length, k = kth number to find.
+
+const findKthSmallestNumber2 = (arr, k) => {
+  if (k > arr.length) return null;
+
+  const minHeap = new Heap((a, b) => a < b);
+
+  // Initialize min heap.
+  for (let i = 0; i < arr.length; i++) {
+    minHeap.add(arr[i]);
+  }
+
+  // Extract k numbers from min heap.
+  let kthSmallestNum = minHeap.poll();
+  for (let i = 1; i < k; i++) {
+    kthSmallestNum = minHeap.poll();
+  }
+
+  return kthSmallestNum;
+}
+
 // TEST
+console.log(findKthSmallestNumber([1, 7, 4, 5, 3, 9, 11, 3, 3, 3, 3, 3, 33, 2, 1, 1, 0, 18, 12, 5, 21, 15], 3));
+console.log(findKthSmallestNumber([1, 7, 4, 5, 3, 9, 11, 3, 33, 2, 0, 18, 12, 5, 21, 15], 5));
+console.log(findKthSmallestNumber([1, 7, 4, 5, 3, 9, 11, 3, 33, 2, 0, 18, 12, 5, 21, 15], 7));
+console.log(findKthSmallestNumber([1, 7, 4, 5, 3, 9, 11, 3, 33, 2, 0, 18, 12, 5, 21, 15], 8));
+console.log(findKthSmallestNumber([1, 1, 15, 15, 15], 4));
+console.log(findKthSmallestNumber([1, 15, 15, 1, 1, 1, 1, 1, 15], 5));
+
+console.log('------------------');
+
 console.log(findKthSmallestNumber([1, 7, 4, 5, 3, 9, 11, 3, 3, 3, 3, 3, 33, 2, 1, 1, 0, 18, 12, 5, 21, 15], 3));
 console.log(findKthSmallestNumber([1, 7, 4, 5, 3, 9, 11, 3, 33, 2, 0, 18, 12, 5, 21, 15], 5));
 console.log(findKthSmallestNumber([1, 7, 4, 5, 3, 9, 11, 3, 33, 2, 0, 18, 12, 5, 21, 15], 7));
