@@ -132,6 +132,25 @@ class PriorityQueue {
     this.items[this.size - 1] = null;
     this.size--;
   }
+
+  build(arr) {
+    if (this.size) throw new Error('ERROR: Heap already exists.');
+
+    this.size = arr.length;
+    this.#ensureEnoughCapacity();
+
+    // leaf nodes: ceil(n/2) ~ n - 1
+    for (let i = this.size - 1; i > Math.ceil(this.size/2) - 1; i--) {
+      this.items[i] = arr[i];
+    }
+    // non-leaf nodes: index 0 ~ ceil(n/2) - 1
+    for (let i = Math.ceil(this.size/2) - 1; i >= 0; i--) {
+      this.items[i] = arr[i];
+      this.heapifyDown(i);
+    }
+
+    console.log(this.items)
+  }
 };
 
 module.exports = PriorityQueue;
