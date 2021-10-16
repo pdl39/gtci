@@ -1,6 +1,4 @@
 class PriorityQueue {
-  #capacity;
-
   /* comparator determines the priority type (min vs max)
   and what values are to be compared (if items in the heap are nodes, for example, we would need to compare the values of the nodes, e.g. a.value < b.value, whereas if items in the heap are numbers, we can simply compare items themselves, e.g. a > b).
   If no comparator function is entered, the priority queue will default to a min heap, with the compared values being the items themselves.
@@ -12,11 +10,10 @@ class PriorityQueue {
   (a, b) => a < b     min heap
   (a, b) => a > b     max heap
   */
-  constructor(comparator = (a, b) => a < b, capacity = 10) {
-    this.#capacity = capacity;
+  constructor(comparator = (a, b) => a < b) {
     this.comparator = comparator;
     this.size = 0;
-    this.items = new Array(capacity).fill(null);
+    this.items = [];
   };
 
   #getParentIndex(index) {
@@ -61,26 +58,18 @@ class PriorityQueue {
     this.items[index2] = temp;
   }
 
-  #ensureEnoughCapacity() {
-    if (this.size < this.#capacity) return;
-
-    const existingItems = [...this.items];
-    this.#capacity *= 2;
-    this.items = new Array(this.#capacity);
-    existingItems.forEach((item, idx) => this.items[idx] = item);
-  }
-
   peek() {
     if (this.size === 0) throw new Error('Heap is empty.');
     return this.items[0];
   }
 
-  poll() { // remove the min.
+  poll() { // remove the top.
     if (this.size === 0) throw new Error('Heap is empty.');
 
     let item = this.items[0];
     this.#swap(0, this.size - 1);
-    this.items[this.size - 1] = null;
+
+    this.items.pop();
     this.size--;
     this.heapifyDown();
 
@@ -88,9 +77,7 @@ class PriorityQueue {
   }
 
   add(item) { // add new item.
-    this.#ensureEnoughCapacity();
-
-    this.items[this.size] = item;
+    this.items.push(item);
     this.size++;
     this.heapifyUp();
   }
@@ -105,14 +92,14 @@ class PriorityQueue {
   heapifyDown(index = 0) {
     // we only need to check if there is a left child, since if there is no left child, there will be no right child.
     while (this.#hasLeftChild(index)) {
-      let smallerChildIndex = this.#getLeftChildIndex(index);
+      let selectedChildIndex = this.#getLeftChildIndex(index);
       if (this.#hasRightChild(index) && this.comparator(this.#rightChild(index), this.#leftChild(index))) {
-        smallerChildIndex = this.#getRightChildIndex(index);
+        selectedChildIndex = this.#getRightChildIndex(index);
       }
 
-      if (this.comparator(this.items[smallerChildIndex], this.items[index])) {
-        this.#swap(smallerChildIndex, index);
-        index = smallerChildIndex;
+      if (this.comparator(this.items[selectedChildIndex], this.items[index])) {
+        this.#swap(selectedChildIndex, index);
+        index = selectedChildIndex;
       }
       else break;
     }
@@ -129,7 +116,7 @@ class PriorityQueue {
     for (let i = index; i < this.size - 1; i++) {
       this.#swap(i, i + 1);
     }
-    this.items[this.size - 1] = null;
+    this.items.pop();
     this.size--;
   }
 
@@ -137,7 +124,7 @@ class PriorityQueue {
     if (this.size) throw new Error('ERROR: Heap already exists.');
 
     this.size = arr.length;
-    this.#ensureEnoughCapacity();
+    this.items = new Array(this.size).fill(null);
 
     // leaf nodes: ceil(n/2) ~ n - 1
     for (let i = this.size - 1; i > Math.ceil(this.size/2) - 1; i--) {
