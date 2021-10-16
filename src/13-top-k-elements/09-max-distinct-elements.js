@@ -20,8 +20,8 @@ Explanation: We can remove one occurrence of '4' to get three distinct numbers. 
 
 const Heap = require('../../ds/PriorityQueue');
 
-// T: O(n + klogn) --> n to build frequency map, n to get distinctEls array, n to get duplicates array, n to build the min heap of duplicates, klogn to reduce duplicate counts by k and pop off any duplicates that have become distinct.
-// S: O(n) --> n for frequency map, n for distinctEls array, n for duplicates array, n for min heap - O(4n).
+// T: O(n + klogn) --> n to build frequency map, n to build the duplicates array and distinctCount from the frequency map, n to build the min heap of duplicates, klogn to pop off duplicates from the min heap in the worst case k times, which is when all duplicates have a count of 2.
+// S: O(n) --> n for frequency map, n for duplicates array, n for min heap - O(3n).
 // where n= input array length, k = # of numbers to remove.
 
 const findMaxDistinctElements = (arr, k) => {
@@ -31,8 +31,14 @@ const findMaxDistinctElements = (arr, k) => {
     else frequencyMap[arr[i]] = 1;
   }
 
-  const distinctEls = Object.entries(frequencyMap).filter(el => el[1] === 1); // O(n)
-  const duplicates = Object.entries(frequencyMap).filter(el => el[1] > 1); // O(n)
+  let distinctCount = 0;
+  const duplicates = [];
+
+  Object.entries(frequencyMap).forEach(el => { // O(n)
+    if (el[1] > 1) duplicates.push(el);
+    else distinctCount++;
+  });
+
   const minHeap = new Heap((a, b) => a[1] < b[1]);
   minHeap.build(duplicates); // O(n)
 
@@ -43,15 +49,14 @@ const findMaxDistinctElements = (arr, k) => {
       top[1]--;
       remainingRemovals--;
     }
-    if (top[1] === 1) distinctEls.push(top);
+    if (top[1] === 1) distinctCount++;
   };
 
   if (remainingRemovals > 0) {
-    return distinctEls.length - remainingRemovals;
+    distinctCount -= remainingRemovals;
   }
-  else {
-    return distinctEls.length;
-  }
+
+  return distinctCount;
 }
 
 
