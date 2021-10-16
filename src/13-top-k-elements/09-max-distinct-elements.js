@@ -38,12 +38,12 @@ const findMaxDistinctElements = (arr, k) => {
 
   let remainingRemovals = k;
   while (remainingRemovals > 0 && minHeap.size > 0) { // O(k)
-    const top = minHeap.peek();
+    const top = minHeap.poll();  // O(logn)
     while (top[1] > 1 && remainingRemovals > 0) {
       top[1]--;
       remainingRemovals--;
     }
-    if (top[1] === 1) distinctEls.push(minHeap.poll()); // O(logn)
+    if (top[1] === 1) distinctEls.push(top);
   };
 
   if (remainingRemovals > 0) {
