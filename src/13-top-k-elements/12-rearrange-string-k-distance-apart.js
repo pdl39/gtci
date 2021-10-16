@@ -38,7 +38,7 @@ const rearrangeStrKDistanceApart = (str, k) => {
 
   const frequencyArr = [];
   Object.entries(frequencyMap).forEach(el => frequencyArr.push(el)); // O(n)
-  // const duplicates = Object.entries(frequencyMap).filter(el => el[1] > 1);
+
   const maxHeap = new Heap((a, b) => a[1] > b[1]);
   maxHeap.build(frequencyArr); // O(n)
 
@@ -46,16 +46,16 @@ const rearrangeStrKDistanceApart = (str, k) => {
   const prevChars = new Queue();
 
   while (maxHeap.size > 0) { // O(n)
-    const char = maxHeap.poll();
+    const char = maxHeap.poll(); // O(logn)
     result.push(char[0]);
     char[1]--;
 
-    prevChars.add(char);
+    prevChars.add(char); // O(logn)
 
     if (prevChars.length === k) {
       const prevChar = prevChars.dequeue().value;
       if (prevChar[1] > 0) {
-        maxHeap.add(prevChar);
+        maxHeap.add(prevChar); // O(logn)
       }
     }
   }
