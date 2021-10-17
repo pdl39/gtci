@@ -8,7 +8,7 @@ const Heap = require('../../ds/PriorityQueue');
 
 // his question is essentially the same as 02-kth-smallest-number-in-m-sorted-array, except that k = n / 2.
 
-const findKthSmallestNumber = (lists, k) => {
+const findKthSmallestNumber = (lists) => {
   let n = 0;
   let currentNum = null;
   const minHeap = new Heap((a, b) => a[0] < b[0]);
