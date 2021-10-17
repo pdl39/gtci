@@ -3,10 +3,10 @@
 const Heap = require('../../ds/PriorityQueue');
 
 // T: O(nlogm) --> We run through the lists up to k = n/2 times and run add/poll operations - logm - in each iteration. Since k = n/2, it is asymptotically n * logm.
-// S: O(m) --> At any point, the min heap will contain at most m elements, 1 number from each of the m lists.
-// where m = # of lists, k = kth number to find.
+// S: O(m) --> At any point, the min heap will contain at most m elements, 1 number from each of the m arrays.
+// where n = total # of elements across all arrays, m = # of arrays, k = kth number to find.
 
-// his question is essentially the same as 02-kth-smallest-number-in-m-sorted-array, except that k = n / 2.
+// This question is essentially the same as 02-kth-smallest-number-in-m-sorted-array, except that k = n / 2.
 
 const findKthSmallestNumber = (lists) => {
   let n = 0;
