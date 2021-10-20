@@ -46,6 +46,43 @@ const zeroOneKnapsackBruteForceRecursive = (weights, profits, remainingCapacity,
 }
 
 
+// #2: Top Down DP w/ Memoization.
+// T: O(n * c) --> Using memoization requires we do operation on an index-capacity combination only once, since any time we encouter the same combination again, we will simply return from the dp for constant time.
+// S: O(n * c) --> the dp two-dimensional array requires n * c space to store all possible combinations. Also, we use n space for the recursion stack.
+// where n = number of items (length of either weights or profits array), c = capacity.
+
+const zeroOneKnapsackMemo = (weights, profits, capacity) => {
+  const dp = new Array(profits.length).fill(null); // dp is a two dimensional array that stores profits at indices represented by instances of current index and the remaining capacity at that index.
+  for (let i = 0; i < dp.length; i++) {
+    dp[i] = new Array(capacity + 1).fill(-1);
+  }
+
+  return zeroOneKnapsackMemoRecursive(weights, profits, capacity, 0, dp);
+};
+
+const zeroOneKnapsackMemoRecursive = (weights, profits, remainingCapacity, currentIdx, dp) => {
+  if (remainingCapacity <= 0 || currentIdx >= profits.length) return 0;
+
+  // If the current index and remaining capacity combination have been already visited, return from the dp.
+  if (dp[currentIdx][remainingCapacity] > -1) {
+    return dp[currentIdx][remainingCapacity];
+  }
+
+  // Find the total profit of items in the path that includes the current item.
+  // Only keep count of the profit if the weight of the current items doesn't exceed the remaining capacity.
+  let profit1 = 0;
+  if (weights[currentIdx] <= remainingCapacity) {
+    profit1 = profits[currentIdx] + zeroOneKnapsackMemoRecursive(weights, profits, remainingCapacity - weights[currentIdx], currentIdx + 1, dp);
+  }
+
+  // Find the total profit of items in the path that skips the current item.
+  const profit2 = zeroOneKnapsackMemoRecursive(weights, profits, remainingCapacity, currentIdx + 1, dp);
+
+  dp[currentIdx][remainingCapacity] = Math.max(profit1, profit2);
+  return dp[currentIdx][remainingCapacity];
+}
+
+
 // TEST
 const weights1 = [3, 2, 7, 5, 1, 2];
 const profits1 = [6, 5, 6, 3, 2, 3];
@@ -59,4 +96,21 @@ console.log(zeroOneKnapsackBruteForce(weights1, profits1, 7));
 console.log(zeroOneKnapsackBruteForce(weights1, profits1, 5));
 console.log(zeroOneKnapsackBruteForce(weights2, profits2, 7));
 console.log(zeroOneKnapsackBruteForce(weights2, profits2, 6));
+console.log(zeroOneKnapsackBruteForce(weights2, profits2, 10));
 
+console.log('---------------------');
+
+console.log(zeroOneKnapsackMemo(weights1, profits1, 8));
+console.log(zeroOneKnapsackMemo(weights1, profits1, 7));
+console.log(zeroOneKnapsackMemo(weights1, profits1, 5));
+console.log(zeroOneKnapsackMemo(weights2, profits2, 7));
+console.log(zeroOneKnapsackMemo(weights2, profits2, 6));
+console.log(zeroOneKnapsackMemo(weights2, profits2, 10));
+
+// console.log('---------------------');
+
+// console.log(zeroOneKnapsackBruteForce(weights1, profits1, 8));
+// console.log(zeroOneKnapsackBruteForce(weights1, profits1, 7));
+// console.log(zeroOneKnapsackBruteForce(weights1, profits1, 5));
+// console.log(zeroOneKnapsackBruteForce(weights2, profits2, 7));
+// console.log(zeroOneKnapsackBruteForce(weights2, profits2, 6));
