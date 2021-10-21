@@ -20,6 +20,14 @@ This shows that Banana + Melon is the best combination as it gives us the maximu
 */
 
 
+/* TIPS ON RECOGNIZING DP PROBLEMS:
+  1. Is it an optimization problem?
+      --> Finding min or max.
+  2. Does the problem entail making a sequence of decisions?
+      --> Making optimal decisions at every step to come up with the optimal result.
+  IF BOTH OF THESE CHECKS ARE TRUE, THE PROBLEM CAN BE SOLVED USING DYNAMIC PROGRAMMING method.
+*/
+
 // #1: Brute force.
 // T: O(2^n)
 // S: O(n) --> the recursive stack will need n space at any point, corresponding to the height of the recursion tree.
@@ -49,7 +57,7 @@ const zeroOneKnapsackBruteForceRecursive = (weights, profits, remainingCapacity,
 // #2: Top Down DP w/ Memoization.
 // T: O(n * c) --> Using memoization requires we do operation on an index-capacity combination only once, since any time we encouter the same combination again, we will simply return from the dp for constant time.
 // S: O(n * c) --> the dp two-dimensional array requires n * c space to store all possible combinations. Also, we use n space for the recursion stack.
-// where n = number of items (length of either weights or profits array), c = capacity.
+// where n = number of items (length of either weights or profits array), c = max capacity.
 
 const zeroOneKnapsackMemo = (weights, profits, capacity) => {
   const dp = new Array(profits.length).fill(null); // dp is a two dimensional array that stores profits at indices represented by instances of current index and the remaining capacity at that index.
@@ -83,13 +91,43 @@ const zeroOneKnapsackMemoRecursive = (weights, profits, remainingCapacity, curre
 }
 
 
+// #3: Bottom Up (Iteration)
+// T: O(n * c) --> we look at n * c combinations to create a dp matrix with max profits at each slot.
+// S: O(n * c) --> we create a n x c dp matrix. (n + 1 x c + 1) to be exact.
+// where n = number of items (length of either weights or profits array), c = max capacity.
+
+const zeroOneKnapsackBottomUp = (weights, profits, capacity) => {
+  const n = profits.length;
+
+  // prepare (n + 1) x (c * 1) matrix.
+  // the rows and columns of our dp matrix will each have 1 more space vs. the total # of items and the max capacity, respectively, since we want the exact index # to match the corresponding order of items and the incremental capacity. In some cases, the weights and profits array will also have 0th index set to empty and start the actual item index from 1, but in this problem, the 0th index item is the 1st item and so forth - an offset by 1 - so when we reference the item from either the weights or profits array using our dp matrix's row index i, we need to get the item at index i - 1.
+  const dp = new Array(n + 1)
+    .fill([])
+    .map(() => new Array(capacity + 1).fill(0));
+
+  // fill up the matrix.
+  for (let i = 0; i <= n; i++) {
+    for (let c = 0; c <= capacity; c++) {
+      if (i === 0 || c === 0) dp[i][c] = 0; // row 0 and column 0 are empty sets for our dp.
+      else if (weights[i - 1] > c) { // if the current item weight is bigger than current remaining capacity, we can't add the current item, so we will carry over the max profit of the previous item at the same remaining capacity.
+        dp[i][c] = dp[i - 1][c];
+      }
+      else { // if we can add the current item given the current remaining capacity, we will consider two options: 1) skip current item, 2) include current item. We will take the max profit from these two options. If we skip the current item, the profit will be carried over from the previous item at the current remaining capacity. If we include the current item, the profit will be
+        dp[i][c] = Math.max(dp[i - 1][c], profits[i - 1] + dp[i - 1][c - weights[i - 1]]);
+      }
+    }
+  }
+
+  return dp[n][capacity];
+}
+
+
 // TEST
 const weights1 = [3, 2, 7, 5, 1, 2];
 const profits1 = [6, 5, 6, 3, 2, 3];
 const weights2 = [1, 2, 3, 5];
 const profits2 = [1, 6, 10, 16];
-const weights3 = [];
-const profits3 = [];
+
 
 console.log(zeroOneKnapsackBruteForce(weights1, profits1, 8));
 console.log(zeroOneKnapsackBruteForce(weights1, profits1, 7));
@@ -107,10 +145,11 @@ console.log(zeroOneKnapsackMemo(weights2, profits2, 7));
 console.log(zeroOneKnapsackMemo(weights2, profits2, 6));
 console.log(zeroOneKnapsackMemo(weights2, profits2, 10));
 
-// console.log('---------------------');
+console.log('---------------------');
 
-// console.log(zeroOneKnapsackBruteForce(weights1, profits1, 8));
-// console.log(zeroOneKnapsackBruteForce(weights1, profits1, 7));
-// console.log(zeroOneKnapsackBruteForce(weights1, profits1, 5));
-// console.log(zeroOneKnapsackBruteForce(weights2, profits2, 7));
-// console.log(zeroOneKnapsackBruteForce(weights2, profits2, 6));
+console.log(zeroOneKnapsackBottomUp(weights1, profits1, 8));
+console.log(zeroOneKnapsackBottomUp(weights1, profits1, 7));
+console.log(zeroOneKnapsackBottomUp(weights1, profits1, 5));
+console.log(zeroOneKnapsackBottomUp(weights2, profits2, 7));
+console.log(zeroOneKnapsackBottomUp(weights2, profits2, 6));
+console.log(zeroOneKnapsackBottomUp(weights2, profits2, 10));
