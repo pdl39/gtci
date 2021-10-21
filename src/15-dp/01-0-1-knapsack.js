@@ -92,7 +92,7 @@ const zeroOneKnapsackMemoRecursive = (weights, profits, remainingCapacity, curre
 
 
 // #3: Bottom Up (Iteration)
-// T: O(n * c) --> we look at n * c combinations to create a dp matrix with max profits at each slot.
+// T: O(n * c) --> we look at n * c combinations to create a dp matrix with max profits at each slot. If we are also finding the selected items, we do n more operations.
 // S: O(n * c) --> we create a n x c dp matrix. (n + 1 x c + 1) to be exact.
 // where n = number of items (length of either weights or profits array), c = max capacity.
 
@@ -118,7 +118,30 @@ const zeroOneKnapsackBottomUp = (weights, profits, capacity) => {
     }
   }
 
-  return dp[n][capacity];
+  const selectedItems = findSelectedItems(weights, profits, capacity, dp);
+  return [dp[n][capacity], selectedItems];
+}
+
+// Finding the selected items:
+const findSelectedItems = (weights, profits, capacity, dp) => { // O(n)
+  let i = profits.length;
+  let c = capacity;
+  let remainingProfit = dp[i][capacity];
+  const selectedItems = new Array(i).fill(0);
+
+  // Since for each item, we can either skip it or include it, we know an item (at the dp row index i) is NOT included if its remaining profit was carried over from the previous item at the same remaining capacity. So we start with the final max profit we have gotten, which will be at dp[n][capacity], and compare against the previous item's max profit at same remaining capacity. If they are NOT the same, we know we have included this item to get the final max profit. After including the item, update the remaining profit by subtracting the profit of the current (included) item and also decrease the remaining capacity by the weight of this item. If they ARE the same, we know this item wasn't included but instead the running max profit was carried over, so we look at the previous item. We will repeat this checking process as long as remaining profit > 0 and the items we check are within the bounds of the dp.
+  while (remainingProfit >= 0 && i > 0 && c >= 0) {
+    if (remainingProfit !== dp[i - 1][c]) {
+      selectedItems[i - 1] = 1;
+      remainingProfit -= profits[i - 1];
+      c -= weights[i - 1];
+    }
+    else {
+      i--;
+    }
+  }
+
+  return selectedItems;
 }
 
 
