@@ -145,6 +145,38 @@ const findSelectedItems = (weights, profits, capacity, dp) => { // O(n)
 }
 
 
+// #3-1: Bottom Up w/ optimized space
+// T: O(n * c)
+// S: O(c) --> Instead of creating a dp matrix containing all items at each partial capacity, we can just keep two one-dimensional arrays each pertaining to a single item and its max profits at the different partial capacities, since we go through the items one by one in order and at any point, we only need to check the current item and the previous item. We just need to update the prev & current item arrays for each item.
+// where n = number of items (length of either weights or profits array), c = max capacity.
+
+const zeroOneKnapsackBottomUp2 = (weights, profits, capacity) => {
+  const n = profits.length;
+  // the dp is a matrix of just two arrays that contains the previous and the current item max profits at partial capacities.
+  // The index position (0 or 1) for the previous & current item arrays will keep alternating, as we will be using the % operator to keep track of the position for the current & prev item arrays for each item i. This means for odd i, current item array will be dp[1] and prev will be dp[0], and vice versa for even i.
+  let dp = new Array(2)
+    .fill([])
+    .map(() => new Array(capacity + 1).fill(0));
+
+  // fill up the matrix.
+  for (let i = 1; i <= n; i++) {
+    for (let c = 1; c <= capacity; c++) {
+      const dpPrev = dp[(i - 1) % 2];
+      const dpCurrent = dp[i % 2];
+
+      if (weights[i - 1] > c) {
+        dpCurrent[c] = dpPrev[c];
+      }
+      else {
+        dpCurrent[c] = Math.max(dpPrev[c], profits[i - 1] + dpPrev[c - weights[i - 1]]);
+      }
+    }
+  }
+
+  return dp[n % 2][capacity];
+}
+
+
 // TEST
 const weights1 = [3, 2, 7, 5, 1, 2];
 const profits1 = [6, 5, 6, 3, 2, 3];
@@ -176,3 +208,12 @@ console.log(zeroOneKnapsackBottomUp(weights1, profits1, 5));
 console.log(zeroOneKnapsackBottomUp(weights2, profits2, 7));
 console.log(zeroOneKnapsackBottomUp(weights2, profits2, 6));
 console.log(zeroOneKnapsackBottomUp(weights2, profits2, 10));
+
+console.log('---------------------');
+
+console.log(zeroOneKnapsackBottomUp2(weights1, profits1, 8));
+console.log(zeroOneKnapsackBottomUp2(weights1, profits1, 7));
+console.log(zeroOneKnapsackBottomUp2(weights1, profits1, 5));
+console.log(zeroOneKnapsackBottomUp2(weights2, profits2, 7));
+console.log(zeroOneKnapsackBottomUp2(weights2, profits2, 6));
+console.log(zeroOneKnapsackBottomUp2(weights2, profits2, 10));
