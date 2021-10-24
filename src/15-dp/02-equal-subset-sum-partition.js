@@ -50,7 +50,7 @@ const canPartition = (arr, currentIdx, sum) => {
 // #2: Memoization
 // T: O(n * s) --> Since already visited combinations are returned directly from the dp matrix, we don't do any overlapping operations. We do n * s operations.
 // S: O(n * s) --> n * s for the dp matrix.
-// where n = input array length, s = total sum of all numbers.
+// where n = input array length, s = total sum of all numbers / 2.
 
 const equalSumPartitionMemo = (arr) => {
   let sum = 0;
@@ -89,7 +89,7 @@ const canPartitionMemo = (arr, currentIdx, sum, dp) => {
 // #3: Bottom Up
 // T: O(n * s) --> Since already visited combinations are returned directly from the dp matrix, we don't do any overlapping operations. We do n * s operations.
 // S: O(n * s) --> n * s for the dp matrix.
-// where n = input array length, s = total sum of all numbers.
+// where n = input array length, s = total sum of all numbers / 2.
 
 const equalSumPartitionTabular = (arr) => {
   const n = arr.length;
@@ -121,6 +121,40 @@ const equalSumPartitionTabular = (arr) => {
 }
 
 
+// #4: Bottom Up - Using Set
+// T: O(n * s) -->
+// S: O(s) --> the dp set will contain at most s + 1 numbers, since set will not have any duplicates.
+// where n = input array length, s = total sum of all numbers.
+
+const equalSumPartitionSet = (arr) => {
+  let sum = 0;
+  arr.forEach(num => sum += num);
+
+  if (sum % 2 !== 0) return false;
+
+  sum /= 2;
+
+  let dp = new Set();
+  dp.add(0); // begin with empty set.
+
+  for (let i = 0; i < arr.length; i++) {
+    const newDp = new Set(); // Since we have to loop through the existing dp set for the current number, we can't directly add to the existing dp set within the iteration for the current number as it will mess up the loop. Thus for each number, we will create a new dp set to add all existing subsets from the existing dp set and also the new subsets that add the current number to each of the existing subsets. After the dp set loop ends for the current number, we will replace our dp set with this new dp set.
+
+    for (const subsetSum of dp.values()) {
+      if (subsetSum === sum) return true;
+      newDp.add(subsetSum);
+      if (subsetSum + arr[i] <= sum) {
+        newDp.add(subsetSum + arr[i]);
+      }
+    }
+
+    dp = newDp;
+  }
+
+  return dp.has(sum);
+}
+
+
 // TEST
 console.log(equalSumPartitionBF([1, 4, 2, 5, 3, 1, 2, 2]));
 console.log(equalSumPartitionBF([1, 4, 2, 5, 3, 1, 2, 9]));
@@ -146,3 +180,12 @@ console.log(equalSumPartitionTabular([1, 4, 2, 5, 3, 1, 2, 4]));
 console.log(equalSumPartitionTabular([1, 4, 2, 5, 3, 1, 2, 8]));
 console.log(equalSumPartitionTabular([1, 4, 6, 5]));
 console.log(equalSumPartitionTabular([1, 2, 3, 4]));
+
+console.log('--------------------');
+
+console.log(equalSumPartitionSet([1, 4, 2, 5, 3, 1, 2, 2]));
+console.log(equalSumPartitionSet([1, 4, 2, 5, 3, 1, 2, 9]));
+console.log(equalSumPartitionSet([1, 4, 2, 5, 3, 1, 2, 4]));
+console.log(equalSumPartitionSet([1, 4, 2, 5, 3, 1, 2, 8]));
+console.log(equalSumPartitionSet([1, 4, 6, 5]));
+console.log(equalSumPartitionSet([1, 2, 3, 4]));
