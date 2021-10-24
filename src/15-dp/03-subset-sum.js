@@ -45,10 +45,7 @@ const subsetSumMemo = (arr, sum) => {
   const dp = new Array(arr.length).fill(null)
   .map(() => new Object());
 
-  // return doesSubsetExistMemo(arr, 0, sum, dp);
-  const result = doesSubsetExistMemo(arr, 0, sum, dp);
-  // console.log(dp);
-  return result;
+  return doesSubsetExistMemo(arr, 0, sum, dp);
 }
 
 const doesSubsetExistMemo = (arr, currentIdx, targetSum, dp) => {
@@ -67,6 +64,34 @@ const doesSubsetExistMemo = (arr, currentIdx, targetSum, dp) => {
   return dp[currentIdx][targetSum];
 }
 
+
+// #3: Tabular
+// T: O(n * s)
+// S: O(n * s) --> for dp
+// where n = input array length, s = target sum
+
+const subsetSumTabular = (arr, sum) => {
+  const n = arr.length;
+
+  const dp = new Array(n).fill(null)
+  .map(() => new Array(sum + 1).fill(false)); // All subsets set to false by default.
+
+  for (let i = 0; i < n; i++) dp[i][0] = true; // We can always get target of 0 using empty set.
+  for (let s = 0; s <= sum; s++) dp[0][s] = arr[0] === s; // When we have only one number, the only way we can the target is if this number is equal to the target.
+
+  for (let i = 1; i < n; i++) {
+    for (let s = 1; s <= sum; s++) {
+      if (dp[i - 1][s]) {
+        dp[i][s] = dp[i - 1][s] // exclude the number if we can get the target from the previous subset that does NOT include the current number.
+      }
+      else { // Else we must see if we can get the target by including the current number.
+        if (arr[i] <= s) dp[i][s] = dp[i - 1][s - arr[i]];
+      }
+    }
+  }
+
+  return dp[n - 1][sum];
+}
 
 
 // TEST
@@ -94,17 +119,17 @@ console.log(subsetSumMemo([1, 2, 7, 1, 5], 10));
 
 console.log('--------------------');
 
-// console.log(subsetSumBF([1, 4, 2, 5, 3, 1, 2, 2], 6));
-// console.log(subsetSumBF([1, 4, 2, 5, 3, 1, 2, 9], 24));
-// console.log(subsetSumBF([1, 4, 2, 5, 3, 1, 2, 8], 35));
-// console.log(subsetSumBF([1, 4, 6, 5], 11));
-// console.log(subsetSumBF([1, 4, 6, 5], 3));
-// console.log(subsetSumBF([1, 2, 3, 4], 8));
-// console.log(subsetSumBF([1, 2, 3, 4], 10));
-// console.log(subsetSumBF([1, 3, 4, 8], 6));
-// console.log(subsetSumBF([1, 2, 7, 1, 5], 10));
+console.log(subsetSumTabular([1, 4, 2, 5, 3, 1, 2, 2], 6));
+console.log(subsetSumTabular([1, 4, 2, 5, 3, 1, 2, 9], 24));
+console.log(subsetSumTabular([1, 4, 2, 5, 3, 1, 2, 8], 35));
+console.log(subsetSumTabular([1, 4, 6, 5], 11));
+console.log(subsetSumTabular([1, 4, 6, 5], 3));
+console.log(subsetSumTabular([1, 2, 3, 4], 8));
+console.log(subsetSumTabular([1, 2, 3, 4], 10));
+console.log(subsetSumTabular([1, 3, 4, 8], 6));
+console.log(subsetSumTabular([1, 2, 7, 1, 5], 10));
 
-// console.log('--------------------');
+console.log('--------------------');
 
 // console.log(subsetSumBF([1, 4, 2, 5, 3, 1, 2, 2], 6));
 // console.log(subsetSumBF([1, 4, 2, 5, 3, 1, 2, 9], 24));
