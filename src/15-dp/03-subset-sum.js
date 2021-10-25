@@ -93,6 +93,34 @@ const subsetSumTabular = (arr, sum) => {
   return dp[n - 1][sum];
 }
 
+// #4: Using Set
+// T: O(n * s)
+// S: O(s) --> for the dp set, which will not have any duplicates.
+// where n = input array length, s = target sum
+
+const subsetSumSet = (arr, sum) => {
+  let dp = new Set();
+  dp.add(0); // Start with empty set.
+
+  // for each number, we will add it to each of existing subset sum values from our dp set, and then add them to the dp set.
+  for (let i = 0; i < arr.length; i++) {
+    const newDp = new Set(); // Since we need to loop through the existing dp set, we will create a new dp set for each current number. We will add all existing subset sums and new subset sums we will get by adding the current number to each of the existing subset sums to this new dp set.
+
+    for (let s of dp.values()) {
+      if (s === sum) return true;
+
+      newDp.add(s);
+      if (s + arr[i] <= sum) {
+        newDp.add(s + arr[i]);
+      }
+    }
+
+    dp = newDp; // We will update our dp set to the new dp set.
+  }
+
+  return dp.has(sum);
+}
+
 
 // TEST
 console.log(subsetSumBF([1, 4, 2, 5, 3, 1, 2, 2], 6));
@@ -131,12 +159,12 @@ console.log(subsetSumTabular([1, 2, 7, 1, 5], 10));
 
 console.log('--------------------');
 
-// console.log(subsetSumBF([1, 4, 2, 5, 3, 1, 2, 2], 6));
-// console.log(subsetSumBF([1, 4, 2, 5, 3, 1, 2, 9], 24));
-// console.log(subsetSumBF([1, 4, 2, 5, 3, 1, 2, 8], 35));
-// console.log(subsetSumBF([1, 4, 6, 5], 11));
-// console.log(subsetSumBF([1, 4, 6, 5], 3));
-// console.log(subsetSumBF([1, 2, 3, 4], 8));
-// console.log(subsetSumBF([1, 2, 3, 4], 10));
-// console.log(subsetSumBF([1, 3, 4, 8], 6));
-// console.log(subsetSumBF([1, 2, 7, 1, 5], 10));
+console.log(subsetSumSet([1, 4, 2, 5, 3, 1, 2, 2], 6));
+console.log(subsetSumSet([1, 4, 2, 5, 3, 1, 2, 9], 24));
+console.log(subsetSumSet([1, 4, 2, 5, 3, 1, 2, 8], 35));
+console.log(subsetSumSet([1, 4, 6, 5], 11));
+console.log(subsetSumSet([1, 4, 6, 5], 3));
+console.log(subsetSumSet([1, 2, 3, 4], 8));
+console.log(subsetSumSet([1, 2, 3, 4], 10));
+console.log(subsetSumSet([1, 3, 4, 8], 6));
+console.log(subsetSumSet([1, 2, 7, 1, 5], 10));
