@@ -25,10 +25,13 @@ const minSubsetSumDiffBF0 = (arr) => {
   let sum = 0;
   arr.forEach(num => sum += num);
   targetSum = Math.ceil(sum / 2);
+  // Our goal will be to find the subset sum (less than or equal to the target sum) that is closest to the target sum, as if there exists a subset where its sum is equal to the target sum, it means there is another subset with the same sum and their difference will be 0, which will be the absolute minimum.
+  // The sum closest to the target sum will be the sum of the first subset, and the other subset will then be the one with sum = total sum - sum of the first subset.
+  // Our answer will be the difference between these two subsets.
 
   const subsetSum1 = targetSum - findMinDiffBF0(arr, 0, 0, targetSum);
   const subsetSum2 = sum - subsetSum1;
-  console.log({subsetSum1, subsetSum2})
+  console.log({subsetSum1, subsetSum2});
   return subsetSum2 - subsetSum1;
 }
 
@@ -65,13 +68,15 @@ const findMinDiffBF = (arr, currentIdx, subsetSum1, subsetSum2) => {
 // #2-0: Memoization
 // T: O(n * s)
 // S: O(n * s)
-// where n = input array length.
+// where n = input array length, s = total sum of all numbers / 2.
 
 const minSubsetSumDiffMemo0 = (arr) => {
   let sum = 0;
   arr.forEach(num => sum += num);
-
   const targetSum = sum / 2;
+  // Our goal will be to find the subset sum (less than or equal to the target sum) that is closest to the target sum, as if there exists a subset where its sum is equal to the target sum, it means there is another subset with the same sum and their difference will be 0, which will be the absolute minimum.
+  // The sum closest to the target sum will be the sum of the first subset, and the other subset will then be the one with sum = total sum - sum of the first subset.
+  // Our answer will be the difference between these two subsets.
 
   const dp = new Array(arr.length).fill(null)
   .map(() => new Object());
@@ -79,7 +84,7 @@ const minSubsetSumDiffMemo0 = (arr) => {
   const minDiff =  findMinDiffMemo0(arr, 0, 0, targetSum, dp);
   const subsetSum1 = targetSum - minDiff;
   const subsetSum2 = sum - subsetSum1;
-  console.log({subsetSum1, subsetSum2})
+  console.log({subsetSum1, subsetSum2});
   return subsetSum2 - subsetSum1;
 }
 
@@ -101,7 +106,7 @@ const findMinDiffMemo0 = (arr, currentIdx, subsetSum, targetSum, dp) => {
 // #2-1: Memoization 2
 // T: O(n * s)
 // S: O(n * s)
-// where n = input array length.
+// where n = input array length, s = total sum of all numbers / 2.
 
 const minSubsetSumDiffMemo = (arr) => {
   const dp = new Array(arr.length).fill(null)
@@ -123,6 +128,73 @@ const findMinDiffMemo = (arr, currentIdx, subsetSum1, subsetSum2, dp) => {
 }
 
 
+// #3-0: Tabular
+// T: O(n * s)
+// S: O(n * s)
+// where n = input array length, s = total sum of all numbers / 2.
+
+const minSubsetSumDiffTabular0 = (arr) => {
+  let sum = 0;
+  arr.forEach(num => sum += num);
+  const targetSum = Math.floor(sum / 2);
+  // Our goal will be to find the subset sum (less than or equal to the target sum) that is closest to the target sum, as if there exists a subset where its sum is equal to the target sum, it means there is another subset with the same sum and their difference will be 0, which will be the absolute minimum.
+  // The sum closest to the target sum will be the sum of the first subset, and the other subset will then be the one with sum = total sum - sum of the first subset.
+  // Our answer will be the difference between these two subsets.
+
+  const dp = new Array(arr.length + 1).fill(null)
+  .map(() => new Array(targetSum + 1).fill(0));
+
+  for(let i = 1; i <= arr.length; i++) {
+    for (let s = 1; s <= targetSum; s++) {
+      const maxSubsetSumExclNum = dp[i - 1][s];
+      const maxSubsetSumInclNum = arr[i - 1] + dp[i - 1][s - arr[i - 1]];
+
+      if (arr[i - 1] > s) dp[i][s] = maxSubsetSumExclNum;
+      else dp[i][s] = Math.max(maxSubsetSumExclNum, maxSubsetSumInclNum);
+    }
+  }
+
+  const subsetSum1 = dp[arr.length][targetSum];
+  const subsetSum2 = sum - subsetSum1;
+
+  console.log({subsetSum1, subsetSum2});
+  return subsetSum2 - subsetSum1;
+}
+
+
+// #3-1: Tabular 2
+const minSubsetSumDiffTabular = (arr) => {
+  let sum = 0;
+  arr.forEach(num => sum += num);
+  const targetSum = Math.floor(sum / 2);
+
+  const dp = new Array(arr.length + 1).fill(null)
+  .map(() => new Array(targetSum + 1).fill(false));
+
+  for (let i = 0; i <= arr.length; i++) dp[i][0] = true;
+
+  for (let i = 1; i <= arr.length; i++) {
+    for (let s = 1; s <= targetSum; s++) {
+      if (arr[i - 1] > s) {
+        dp[i][s] = dp[i - 1][s];
+      }
+      else {
+        dp[i][s] = dp[i - 1][s] || dp[i - 1][s - arr[i - 1]];
+      }
+    }
+  }
+
+  let subsetSum1 = targetSum;
+  while (subsetSum1 > 0 && !dp[arr.length][subsetSum1]) {
+    subsetSum1--;
+  }
+
+  const subsetSum2 = sum - subsetSum1;
+
+  console.log({subsetSum1, subsetSum2});
+  return subsetSum2 - subsetSum1;
+}
+
 
 // TEST
 console.log(minSubsetSumDiffBF0([1, 2, 3, 9]));
@@ -139,6 +211,13 @@ console.log(minSubsetSumDiffBF([5, 7, 10, 1, 67, 82, 33]));
 
 console.log('----------------------');
 
+console.log(minSubsetSumDiffMemo0([1, 2, 3, 9]));
+console.log(minSubsetSumDiffMemo0([1, 2, 7, 1, 5]));
+console.log(minSubsetSumDiffMemo0([1, 3, 100, 4]));
+console.log(minSubsetSumDiffMemo0([5, 7, 10, 1, 67, 82, 33]));
+
+console.log('----------------------');
+
 console.log(minSubsetSumDiffMemo([1, 2, 3, 9]));
 console.log(minSubsetSumDiffMemo([1, 2, 7, 1, 5]));
 console.log(minSubsetSumDiffMemo([1, 3, 100, 4]));
@@ -146,8 +225,15 @@ console.log(minSubsetSumDiffMemo([5, 7, 10, 1, 67, 82, 33]));
 
 console.log('----------------------');
 
-console.log(minSubsetSumDiffMemo0([1, 2, 3, 9]));
-console.log(minSubsetSumDiffMemo0([1, 2, 7, 1, 5]));
-console.log(minSubsetSumDiffMemo0([1, 3, 100, 4]));
-console.log(minSubsetSumDiffMemo0([5, 7, 10, 1, 67, 82, 33]));
+console.log(minSubsetSumDiffTabular0([1, 2, 3, 9]));
+console.log(minSubsetSumDiffTabular0([1, 2, 7, 1, 5]));
+console.log(minSubsetSumDiffTabular0([1, 3, 100, 4]));
+console.log(minSubsetSumDiffTabular0([5, 7, 10, 1, 67, 82, 33]));
+
+console.log('----------------------');
+
+console.log(minSubsetSumDiffTabular([1, 2, 3, 9]));
+console.log(minSubsetSumDiffTabular([1, 2, 7, 1, 5]));
+console.log(minSubsetSumDiffTabular([1, 3, 100, 4]));
+console.log(minSubsetSumDiffTabular([5, 7, 10, 1, 67, 82, 33]));
 
