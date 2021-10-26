@@ -11,8 +11,8 @@ Output: 3
 The given set has '3' subsets whose sum is '9': {2, 7}, {1, 7, 1}, {1, 2, 1, 5} */
 
 // #1: Brute Force
-// T: O()
-// S: O()
+// T: O(2^n) --> 2^n subset combinations.
+// S: O(n) --> for recursion stack
 // where n = input array length.
 
 const countSubsetsWithTargetSumBF = (arr, targetSum) => {
