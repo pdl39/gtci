@@ -30,6 +30,34 @@ const getCountBF = (arr, currentIdx, targetSum) => {
 }
 
 
+// #2: Memoization
+// T: O(n * s)
+// S: O(n * s)
+// where n = input array length, s = targetSum
+
+const countSubsetsWithTargetSumMemo = (arr, targetSum) => {
+  const dp = new Array(arr.length).fill(null)
+  .map(() => new Object());
+
+  return getCountMemo(arr, 0, targetSum, dp);
+}
+
+const getCountMemo = (arr, currentIdx, targetSum, dp) => {
+  if (targetSum === 0) return 1;
+  if (currentIdx >= arr.length) return 0;
+
+  if (targetSum in dp[currentIdx]) {
+    return dp[currentIdx][targetSum];
+  }
+
+  const count1 = getCountMemo(arr, currentIdx + 1, targetSum - arr[currentIdx], dp);
+  const count2 = getCountMemo(arr, currentIdx + 1, targetSum, dp);
+
+  dp[currentIdx][targetSum] = count1 + count2;
+  return dp[currentIdx][targetSum];
+}
+
+
 // TEST
 console.log('\nBrute Force');
 console.log('----------------------');
@@ -39,3 +67,12 @@ console.log(countSubsetsWithTargetSumBF([1, 2, 7, 1, 5], 18));
 console.log(countSubsetsWithTargetSumBF([1, 2, 7, 1, 5], 16));
 console.log(countSubsetsWithTargetSumBF([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 21));
 console.log(countSubsetsWithTargetSumBF([1, 2, 3, 8, 5, 6, 11, 10], 25));
+
+console.log('\nMemoization');
+console.log('----------------------');
+console.log(countSubsetsWithTargetSumMemo([1, 1, 2, 3], 4));
+console.log(countSubsetsWithTargetSumMemo([1, 2, 7, 1, 5], 9));
+console.log(countSubsetsWithTargetSumMemo([1, 2, 7, 1, 5], 18));
+console.log(countSubsetsWithTargetSumMemo([1, 2, 7, 1, 5], 16));
+console.log(countSubsetsWithTargetSumMemo([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 21));
+console.log(countSubsetsWithTargetSumMemo([1, 2, 3, 8, 5, 6, 11, 10], 25));
