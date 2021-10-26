@@ -199,8 +199,8 @@ const minSubsetSumDiffTabular = (arr) => {
   return subsetSum2 - subsetSum1;
 }
 
-// #4 Using Set
-// T: O(n * s)
+// #4 Using Set - with sort
+// T: O(n * s + n * logn)
 // S: O(s) --> the dp set will have at most s + 1 numbers.
 // where n = input array length, s = total sum of all numbers / 2.
 
@@ -224,8 +224,44 @@ const minSubsetSumDiffSet = (arr) => {
     dp = newDp;
   }
 
-  const sortedDp = Array.from(dp).sort((a, b) => a - b);
+  const sortedDp = Array.from(dp).sort((a, b) => a - b); // O(n + nlogn)
   const subsetSum1 = sortedDp[sortedDp.length - 1]; // the biggest subset sum less than or equal to the target sum (total sum / 2) will be the sum closest to our target sum.
+  const subsetSum2 = sum - subsetSum1;
+  console.log({subsetSum1, subsetSum2});
+
+  return subsetSum2 - subsetSum1;
+}
+
+// #4 Using Set - with max heap
+// T: O(n * s)
+// S: O(s) --> the dp set will have at most s + 1 numbers.
+// where n = input array length, s = total sum of all numbers / 2.
+
+const minSubsetSumDiffSetWithHeap = (arr) => {
+  let sum = 0;
+  arr.forEach(num => sum += num);
+  const targetSum = Math.floor(sum / 2);
+
+  let dp = new Set();
+  dp.add(0);
+
+  for (let i = 0; i < arr.length; i++) {
+    const newDp = new Set();
+    for (const subsetSum of dp.values()) {
+      newDp.add(subsetSum);
+
+      if (subsetSum + arr[i] <= targetSum) {
+        newDp.add(subsetSum + arr[i]);
+      }
+    }
+    dp = newDp;
+  }
+
+  const sortedDp = Array.from(dp); // O(n)
+  const Heap = require('../../ds/PriorityQueue');
+  const maxHeap = new Heap((a, b) => a > b);
+  maxHeap.build(sortedDp); // O(n) - building max heap from the sums array will reduce time to O(n) vs. sorting.
+  const subsetSum1 = maxHeap.peek(); // the biggest subset sum less than or equal to the target sum (total sum / 2) will be the sum closest to our target sum.
   const subsetSum2 = sum - subsetSum1;
   console.log({subsetSum1, subsetSum2});
 
@@ -288,4 +324,12 @@ console.log(minSubsetSumDiffSet([1, 2, 3, 9]));
 console.log(minSubsetSumDiffSet([1, 2, 7, 1, 5]));
 console.log(minSubsetSumDiffSet([1, 3, 100, 4]));
 console.log(minSubsetSumDiffSet([5, 7, 10, 1, 67, 82, 33]));
+
+console.log('\nSet with Heap');
+console.log('----------------------');
+
+console.log(minSubsetSumDiffSetWithHeap([1, 2, 3, 9]));
+console.log(minSubsetSumDiffSetWithHeap([1, 2, 7, 1, 5]));
+console.log(minSubsetSumDiffSetWithHeap([1, 3, 100, 4]));
+console.log(minSubsetSumDiffSetWithHeap([5, 7, 10, 1, 67, 82, 33]));
 
