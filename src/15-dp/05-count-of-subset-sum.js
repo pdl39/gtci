@@ -86,6 +86,28 @@ const countSubsetsWithTargetSumTabular = (arr, targetSum) => {
   return dp[arr.length - 1][targetSum];
 }
 
+// #4: Tabular with O(s) space.
+// T: O(n * s)
+// S: O(s) --> dp of O(2s)
+// where n = input array length, s = targetSum
+
+const countSubsetsWithTargetSumTabular2 = (arr, targetSum) => {
+  const dp = new Array(targetSum + 1).fill(0);
+
+  dp[0] = 1;
+  for (let s = 0; s <= targetSum; s++) {
+    if (arr[0] === s) dp[s] = 1;
+  }
+
+  for (let i = 1; i < arr.length; i++) {
+    for (let s = targetSum; s >= 0; s--) { // iterate from the end, so that we can make sure the references to dp[s - arr[i]] always refers to the previous set, before updating with the current number iteration.
+      if (arr[i] <= s) dp[s] += dp[s - arr[i]];
+    }
+  }
+
+  return dp[targetSum];
+}
+
 
 // TEST
 console.log('\nBrute Force');
@@ -114,3 +136,12 @@ console.log(countSubsetsWithTargetSumTabular([1, 2, 7, 1, 5], 18));
 console.log(countSubsetsWithTargetSumTabular([1, 2, 7, 1, 5], 16));
 console.log(countSubsetsWithTargetSumTabular([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 21));
 console.log(countSubsetsWithTargetSumTabular([1, 2, 3, 8, 5, 6, 11, 10], 25));
+
+console.log('\nTabular 2');
+console.log('----------------------');
+console.log(countSubsetsWithTargetSumTabular2([1, 1, 2, 3], 4));
+console.log(countSubsetsWithTargetSumTabular2([1, 2, 7, 1, 5], 9));
+console.log(countSubsetsWithTargetSumTabular2([1, 2, 7, 1, 5], 18));
+console.log(countSubsetsWithTargetSumTabular2([1, 2, 7, 1, 5], 16));
+console.log(countSubsetsWithTargetSumTabular2([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 21));
+console.log(countSubsetsWithTargetSumTabular2([1, 2, 3, 8, 5, 6, 11, 10], 25));
