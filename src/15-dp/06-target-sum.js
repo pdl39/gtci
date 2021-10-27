@@ -31,6 +31,32 @@ const getNumWaysBF = (arr, currentIdx, targetSum) => {
 }
 
 
+// #2: Memoization
+// T: O(n * s)
+// S: O(n * s)
+// where n = input array length, s = targetSum
+
+const targetSumMemo = (arr, targetSum) => {
+  const dp = new Array(arr.length).fill(null)
+  .map(() => new Object());
+
+  return getNumWaysMemo(arr, 0, 0, targetSum, dp);
+}
+
+const getNumWaysMemo = (arr, currentIdx, subsetSum, targetSum, dp) => {
+  if (currentIdx === arr.length && subsetSum === targetSum) return 1;
+  if (currentIdx >= arr.length) return 0;
+
+  if (subsetSum in dp.values()) return dp[currentIdx][subsetSum];
+
+  const numWays1 = getNumWaysMemo(arr, currentIdx + 1, subsetSum + arr[currentIdx], targetSum, dp);
+  const numWays2 = getNumWaysMemo(arr, currentIdx + 1, subsetSum - arr[currentIdx], targetSum, dp);
+
+  dp[currentIdx][subsetSum] = numWays1 + numWays2;
+  return dp[currentIdx][subsetSum];
+}
+
+
 // TEST
 console.log('\nBrute Force');
 console.log('----------------------');
@@ -41,14 +67,14 @@ console.log(targetSumBF([1, 2, 7, 1, 5], 12));
 console.log(targetSumBF([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 42));
 console.log(targetSumBF([1, 2, 3, 8, 5, 6, 11, 10], 28));
 
-// console.log('\nMemoization');
-// console.log('----------------------');
-// console.log(targetSumMemo([1, 1, 2, 3], 4));
-// console.log(targetSumMemo([1, 1, 2, 3], 1));
-// console.log(targetSumMemo([1, 2, 7, 1], 9));
-// console.log(targetSumMemo([1, 2, 7, 1, 5], 12));
-// console.log(targetSumMemo([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 42));
-// console.log(targetSumMemo([1, 2, 3, 8, 5, 6, 11, 10], 28));
+console.log('\nMemoization');
+console.log('----------------------');
+console.log(targetSumMemo([1, 1, 2, 3], 4));
+console.log(targetSumMemo([1, 1, 2, 3], 1));
+console.log(targetSumMemo([1, 2, 7, 1], 9));
+console.log(targetSumMemo([1, 2, 7, 1, 5], 12));
+console.log(targetSumMemo([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 42));
+console.log(targetSumMemo([1, 2, 3, 8, 5, 6, 11, 10], 28));
 
 // console.log('\nTabular');
 // console.log('----------------------');
