@@ -58,6 +58,35 @@ const getCountMemo = (arr, currentIdx, targetSum, dp) => {
 }
 
 
+// #3: Tabular
+// T: O(n * s)
+// S: O(n * s)
+// where n = input array length, s = targetSum
+
+const countSubsetsWithTargetSumTabular = (arr, targetSum) => {
+  const dp = new Array(arr.length).fill(null)
+  .map(() => new Array(targetSum + 1).fill(0));
+
+  for (let i = 0; i < arr.length; i++) dp[i][0] = 1;
+  for (let s = 0; s <= targetSum; s++) {
+    if (arr[0] === s) dp[0][s] = 1;
+  }
+
+  for (let i = 1; i < arr.length; i++) {
+    for (let s = 1; s <= targetSum; s++) {
+      if (arr[i] > s) {
+        dp[i][s] = dp[i - 1][s];
+      }
+      else {
+        dp[i][s] = dp[i - 1][s] + dp[i - 1][s - arr[i]];
+      }
+    }
+  }
+
+  return dp[arr.length - 1][targetSum];
+}
+
+
 // TEST
 console.log('\nBrute Force');
 console.log('----------------------');
@@ -76,3 +105,12 @@ console.log(countSubsetsWithTargetSumMemo([1, 2, 7, 1, 5], 18));
 console.log(countSubsetsWithTargetSumMemo([1, 2, 7, 1, 5], 16));
 console.log(countSubsetsWithTargetSumMemo([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 21));
 console.log(countSubsetsWithTargetSumMemo([1, 2, 3, 8, 5, 6, 11, 10], 25));
+
+console.log('\nTabular');
+console.log('----------------------');
+console.log(countSubsetsWithTargetSumTabular([1, 1, 2, 3], 4));
+console.log(countSubsetsWithTargetSumTabular([1, 2, 7, 1, 5], 9));
+console.log(countSubsetsWithTargetSumTabular([1, 2, 7, 1, 5], 18));
+console.log(countSubsetsWithTargetSumTabular([1, 2, 7, 1, 5], 16));
+console.log(countSubsetsWithTargetSumTabular([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 21));
+console.log(countSubsetsWithTargetSumTabular([1, 2, 3, 8, 5, 6, 11, 10], 25));
