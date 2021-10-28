@@ -21,7 +21,7 @@ const targetSumBF = (arr, targetSum) => {
 }
 
 const getNumWaysBF = (arr, currentIdx, targetSum) => {
-  if (currentIdx === arr.length && targetSum === 0) return 1;
+  if (currentIdx === arr.length && targetSum === 0) return 1; // Since we are always including all numbers, but either with a + or a - assigned to it, we can only return 1 when we have looked at a complete subset with all arr.length - 1 numbers included. We can't prematurely return out, as targetSum can be temporarily 0 when the numbers we have currently included cancel each other out, even though we have more numbers to look at.
   if (currentIdx >= arr.length) return 0;
 
   const numWays1 = getNumWaysBF(arr, currentIdx + 1, targetSum - arr[currentIdx]); // assign + to the current number (add it to subset)
@@ -56,6 +56,60 @@ const getNumWaysMemo = (arr, currentIdx, subsetSum, targetSum, dp) => {
   return dp[currentIdx][subsetSum];
 }
 
+// #3: Tabular
+// T: O(n * s)
+// S: O(n * s)
+// where n = input array length, s = targetSum
+
+/* We are going to use a clever logic to convert this question to a "count the number of subsets that haver sum equal to a target sum".
+In this question, we are either assigning a + or a - to each number in the array and find the number of such combinations that sum to a target sum.
+--> This is essentially the same as finding the number of combinations subsets where the difference between one subset and another subset equals the target sum.
+- Take the following example and one solution subset:
+input array: [1, 1, 2, 3]
+target sum: 1
+one solution subset: [+1, -1, -2, +3] -> 1 - 1 - 2 + 3 = 1
+This can be re-written as: (1 + 3) - (1 + 2) = 1
+In other words:
+- subsetSum1 - subsetSum2 = targetSum
+We also know:
+- subsetSum1 + subsetSum2 = totalSum
+Using these 2 equations, we can derive the following:
+=> subsetSum1 - subsetSum2 + subsetSum1 + subsetSum2 = targetSum + totalSum
+=> 2 * (subsetSum1) = targetSum + totalSum
+=> subsetSum1 = (targetSum + totalSum) / 2
+So, essentially we want to find the count of subsets whose sum = (targetSum + totalSum) / 2
+*/
+
+const targetSumTabular = (arr, targetSum) => {
+  let totalSum = 0;
+  arr.forEach(num => totalSum += num);
+
+  // if targetSum + totalSum is an odd number, (targetSum + totalSum) / 2 will be a non-integer value, which means subsetSum1 is also not an integer, which means there is no subset such that the difference between its sum and another subset sum equals the targetSum.
+  if ((targetSum + totalSum) % 2 !== 0) return 0;
+
+  const adjustedTarget = Math.floor((targetSum + totalSum) / 2);
+
+  const dp = new Array(arr.length).fill(null)
+  .map(() => new Array(adjustedTarget + 1).fill(0));
+
+  for (let i = 0; i < arr.length; i++) dp[i][0] = 1;
+  for (let s = 1; s <= adjustedTarget; s++) {
+    if (arr[0] === s) dp[0][s] = 1;
+  }
+
+  for (let i = 1; i < arr.length; i++) {
+    for (let s = 1; s <= adjustedTarget; s++) {
+      if (arr[i] > s) {
+        dp[i][s] = dp[i - 1][s];
+      }
+      else {
+        dp[i][s] = dp[i - 1][s] + dp[i - 1][s - arr[i]];
+      }
+    }
+  }
+
+  return dp[arr.length - 1][adjustedTarget];
+}
 
 // TEST
 console.log('\nBrute Force');
@@ -76,14 +130,14 @@ console.log(targetSumMemo([1, 2, 7, 1, 5], 12));
 console.log(targetSumMemo([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 42));
 console.log(targetSumMemo([1, 2, 3, 8, 5, 6, 11, 10], 28));
 
-// console.log('\nTabular');
-// console.log('----------------------');
-// console.log(targetSumTabular([1, 1, 2, 3], 4));
-// console.log(targetSumTabular([1, 1, 2, 3], 1));
-// console.log(targetSumTabular([1, 2, 7, 1], 9));
-// console.log(targetSumTabular([1, 2, 7, 1, 5], 12));
-// console.log(targetSumTabular([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 42));
-// console.log(targetSumTabular([1, 2, 3, 8, 5, 6, 11, 10], 28));
+console.log('\nTabular');
+console.log('----------------------');
+console.log(targetSumTabular([1, 1, 2, 3], 4));
+console.log(targetSumTabular([1, 1, 2, 3], 1));
+console.log(targetSumTabular([1, 2, 7, 1], 9));
+console.log(targetSumTabular([1, 2, 7, 1, 5], 12));
+console.log(targetSumTabular([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 42));
+console.log(targetSumTabular([1, 2, 3, 8, 5, 6, 11, 10], 28));
 
 // console.log('\nTabular 2');
 // console.log('----------------------');
