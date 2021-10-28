@@ -111,6 +111,39 @@ const targetSumTabular = (arr, targetSum) => {
   return dp[arr.length - 1][adjustedTarget];
 }
 
+
+// #3: Tabular
+// T: O(n * s)
+// S: O(s)
+// where n = input array length, s = targetSum
+
+const targetSumTabular2 = (arr, targetSum) => {
+  let totalSum = 0;
+  arr.forEach(num => totalSum += num);
+
+  if ((targetSum + totalSum) % 2 !== 0) return 0;
+
+  const adjustedTarget = Math.floor((targetSum + totalSum) / 2);
+
+  const dp = new Array(adjustedTarget + 1).fill(0);
+
+  dp[0] = 1;
+  for (let s = 1; s <= adjustedTarget; s++) {
+    dp[s] = arr[0] === s ? 1 : 0;
+  }
+
+  for (let i = 1; i < arr.length; i++) {
+    for (let s = adjustedTarget; s >= 0; s--) {
+      if (arr[i] <= s) {
+        dp[s] += dp[s - arr[i]];
+      }
+    }
+  }
+
+  return dp[adjustedTarget];
+}
+
+
 // TEST
 console.log('\nBrute Force');
 console.log('----------------------');
@@ -139,11 +172,11 @@ console.log(targetSumTabular([1, 2, 7, 1, 5], 12));
 console.log(targetSumTabular([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 42));
 console.log(targetSumTabular([1, 2, 3, 8, 5, 6, 11, 10], 28));
 
-// console.log('\nTabular 2');
-// console.log('----------------------');
-// console.log(targetSumTabular2([1, 1, 2, 3], 4));
-// console.log(targetSumTabular2([1, 1, 2, 3], 1));
-// console.log(targetSumTabular2([1, 2, 7, 1], 9));
-// console.log(targetSumTabular2([1, 2, 7, 1, 5], 12));
-// console.log(targetSumTabular2([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 42));
-// console.log(targetSumTabular2([1, 2, 3, 8, 5, 6, 11, 10], 28));
+console.log('\nTabular 2');
+console.log('----------------------');
+console.log(targetSumTabular2([1, 1, 2, 3], 4));
+console.log(targetSumTabular2([1, 1, 2, 3], 1));
+console.log(targetSumTabular2([1, 2, 7, 1], 9));
+console.log(targetSumTabular2([1, 2, 7, 1, 5], 12));
+console.log(targetSumTabular2([1, 2, 7, 1, 5, 3, 8, 5, 6, 11, 9, 10], 42));
+console.log(targetSumTabular2([1, 2, 3, 8, 5, 6, 11, 10], 28));
