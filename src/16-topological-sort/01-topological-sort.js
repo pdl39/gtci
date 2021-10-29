@@ -88,7 +88,7 @@ const generateAdjListAndInDegMap = (vertices, edges) => {
   const adjList = {};
   const inDegreeMap = {};
 
-  for (let i = 0; i < vertices; i++) { // O(v)
+  for (let i = 0; i < edges.length; i++) { // O(v)
     if (!(edges[i][0] in adjList)) adjList[edges[i][0]] = [];
     if (!(edges[i][1] in adjList)) adjList[edges[i][1]] = [];
     adjList[edges[i][0]].push(edges[i][1]);
@@ -104,5 +104,5 @@ const generateAdjListAndInDegMap = (vertices, edges) => {
 
 // TEST
 console.log(topologicalSort(4, [[3, 2], [3, 0], [2, 0], [2, 1]]));
-console.log(topologicalSort(7, [[1, 3], [2, 3], [2, 5], [3, 4], [4, 6], [4, 7], [4, 8]]));
+console.log(topologicalSort(8, [[1, 3], [2, 3], [2, 5], [3, 4], [4, 6], [4, 7], [4, 8]]));
 console.log(topologicalSort(0, []));
