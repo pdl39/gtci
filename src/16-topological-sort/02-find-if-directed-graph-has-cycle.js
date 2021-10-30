@@ -61,9 +61,53 @@ const generateAdjListAndInDegMap = (edges) => {
 }
 
 
+// #2: Alternate solution with just counting
+// T: O(v + e)
+// S: O(v + e)
+// where v = total # of vertices, e = total # of edges
+
+const doesDirectedGraphHaveCycle2 = (vertices, edges) => {
+  let sortedTasksCount = 0;
+  const [graph, inDegreeMap] = generateAdjListAndInDegMap(edges); // O(v)
+
+  const Queue = require('../../ds/Queue');
+  const sourcesQueue = new Queue();
+
+  for (const vertex in graph) { // O(v)
+    if (inDegreeMap[vertex] === 0) {
+      sourcesQueue.add(vertex);
+    }
+  }
+
+  while (sourcesQueue.length > 0) { // O(v + e)
+    const currentSource = sourcesQueue.dequeue().value;
+    sortedTasksCount++;
+
+    for (const vertex of graph[currentSource]) {
+      if (inDegreeMap[vertex] > 0) {
+        inDegreeMap[vertex]--;
+      }
+      if (inDegreeMap[vertex] === 0) {
+        sourcesQueue.add(vertex);
+      }
+    }
+  }
+
+  return sortedTasksCount !== vertices;
+}
+
+
 // TEST
 console.log(doesDirectedGraphHaveCycle(4, [[3, 2], [3, 0], [2, 0], [2, 1]]));
 console.log(doesDirectedGraphHaveCycle(8, [[1, 3], [2, 3], [2, 5], [3, 4], [4, 6], [4, 7], [4, 8]]));
 console.log(doesDirectedGraphHaveCycle(0, []));
 console.log(doesDirectedGraphHaveCycle(4, [[1, 2], [1, 3], [2, 5], [3, 5], [5, 1]]));
 console.log(doesDirectedGraphHaveCycle(4, [[1, 2], [1, 3], [2, 5], [3, 5], [5, 2]]));
+
+console.log('--------------------------');
+
+console.log(doesDirectedGraphHaveCycle2(4, [[3, 2], [3, 0], [2, 0], [2, 1]]));
+console.log(doesDirectedGraphHaveCycle2(8, [[1, 3], [2, 3], [2, 5], [3, 4], [4, 6], [4, 7], [4, 8]]));
+console.log(doesDirectedGraphHaveCycle2(0, []));
+console.log(doesDirectedGraphHaveCycle2(4, [[1, 2], [1, 3], [2, 5], [3, 5], [5, 1]]));
+console.log(doesDirectedGraphHaveCycle2(4, [[1, 2], [1, 3], [2, 5], [3, 5], [5, 2]]));
