@@ -56,7 +56,7 @@ Steps:
 
 const topologicalSort = (vertices, edges) => {
   const sortedOrder = [];
-  const [graph, inDegreeMap] = generateAdjListAndInDegMap(vertices, edges); // O(v)
+  const [graph, inDegreeMap] = generateAdjListAndInDegMap(edges); // O(v)
 
   const Queue = require('../../ds/Queue');
   const sourcesQueue = new Queue();
@@ -84,7 +84,7 @@ const topologicalSort = (vertices, edges) => {
   return sortedOrder;
 }
 
-const generateAdjListAndInDegMap = (vertices, edges) => {
+const generateAdjListAndInDegMap = (edges) => {
   const adjList = {};
   const inDegreeMap = {};
 

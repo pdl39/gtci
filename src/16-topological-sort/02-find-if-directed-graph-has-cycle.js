@@ -3,14 +3,14 @@
 // This question is essentially the same as topological sort, as topological sort is only possible for a directed graph if it DOESN'T have a cycle. So if the sorted output length is not the same as the total # of vertices in the grapgh, we know topological sort didn't work and thus cycle exists in the graph.
 
 const doesDirectedGraphHaveCycle = (vertices, edges) => {
-  const sortedOrder = topologicalSort(vertices, edges);
+  const sortedOrder = topologicalSort(edges);
   return sortedOrder.length !== vertices;
 }
 
 
-const topologicalSort = (vertices, edges) => {
+const topologicalSort = (edges) => {
   const sortedOrder = [];
-  const [graph, inDegreeMap] = generateAdjListAndInDegMap(vertices, edges); // O(v)
+  const [graph, inDegreeMap] = generateAdjListAndInDegMap(edges); // O(v)
 
   const Queue = require('../../ds/Queue');
   const sourcesQueue = new Queue();
@@ -38,7 +38,7 @@ const topologicalSort = (vertices, edges) => {
   return sortedOrder;
 }
 
-const generateAdjListAndInDegMap = (vertices, edges) => {
+const generateAdjListAndInDegMap = (edges) => {
   const adjList = {};
   const inDegreeMap = {};
 
