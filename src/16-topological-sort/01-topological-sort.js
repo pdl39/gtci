@@ -81,6 +81,10 @@ const topologicalSort = (vertices, edges) => {
     }
   }
 
+  if (sortedOrder.length !== vertices) {
+    return [];
+  }
+
   return sortedOrder;
 }
 
@@ -106,3 +110,5 @@ const generateAdjListAndInDegMap = (edges) => {
 console.log(topologicalSort(4, [[3, 2], [3, 0], [2, 0], [2, 1]]));
 console.log(topologicalSort(8, [[1, 3], [2, 3], [2, 5], [3, 4], [4, 6], [4, 7], [4, 8]]));
 console.log(topologicalSort(0, []));
+console.log(topologicalSort(4, [[1, 2], [1, 3], [2, 5], [3, 5], [5, 1]]));
+console.log(topologicalSort(4, [[1, 2], [1, 3], [2, 5], [3, 5], [5, 2]]));

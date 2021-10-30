@@ -26,10 +26,10 @@ Explanation: A possible scheduling of tasks is: [0 1 4 3 2 5] */
 // where v = total # of vertices, e = total # of edges
 
 const taskSchedulingOrder = (tasks, prerequisites) => {
-  return topologicalSort(prerequisites);
+  return topologicalSort(tasks, prerequisites);
 }
 
-const topologicalSort = (edges) => {
+const topologicalSort = (tasks, edges) => {
   const sortedOrder = [];
   const [graph, inDegreeMap] = generateGraphAndInDegMap(edges);
 
@@ -54,6 +54,10 @@ const topologicalSort = (edges) => {
         sources.add(vertex);
       }
     }
+  }
+
+  if (sortedOrder.length !== tasks) {
+    return [];
   }
 
   return sortedOrder;

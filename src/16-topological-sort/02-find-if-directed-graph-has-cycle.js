@@ -8,12 +8,12 @@
 // where v = total # of vertices, e = total # of edges
 
 const doesDirectedGraphHaveCycle = (vertices, edges) => {
-  const sortedOrder = topologicalSort(edges);
+  const sortedOrder = topologicalSort(vertices, edges);
   return sortedOrder.length !== vertices;
 }
 
 
-const topologicalSort = (edges) => {
+const topologicalSort = (vertices, edges) => {
   const sortedOrder = [];
   const [graph, inDegreeMap] = generateAdjListAndInDegMap(edges); // O(v)
 
@@ -38,6 +38,10 @@ const topologicalSort = (edges) => {
         sourcesQueue.add(vertex);
       }
     }
+  }
+
+  if (sortedOrder.length !== vertices) {
+    return [];
   }
 
   return sortedOrder;
