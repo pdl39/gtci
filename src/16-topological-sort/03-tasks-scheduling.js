@@ -18,7 +18,7 @@ Output: true
 Explanation: A possible scheduling of tasks is: [0 1 4 3 2 5] */
 
 
-// This question is essentially the same as 02-find-if-directed-graph-has-cycle using topological sort - tasks are vertices and prerequisite pairs are the edges.
+// This question is exactly the same as 02-find-if-directed-graph-has-cycle using topological sort - tasks are vertices and prerequisite pairs are the edges.
 
 
 // T: O(v + e)
