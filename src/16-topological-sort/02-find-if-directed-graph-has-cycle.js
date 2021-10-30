@@ -2,6 +2,11 @@
 
 // This question is essentially the same as topological sort, as topological sort is only possible for a directed graph if it DOESN'T have a cycle. So if the sorted output length is not the same as the total # of vertices in the grapgh, we know topological sort didn't work and thus cycle exists in the graph.
 
+
+// T: O(v + e)
+// S: O(v + e)
+// where v = total # of vertices, e = total # of edges
+
 const doesDirectedGraphHaveCycle = (vertices, edges) => {
   const sortedOrder = topologicalSort(edges);
   return sortedOrder.length !== vertices;
